@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class backend : MonoBehaviour {
 	
+	//Could be 1 struct?
 	int[,] cards = new int[5,5];
 	int[,] owned = new int[5,5];
 	int[,] position = new int[5,5];
+	
 	int[] apollo = new int[20];
 	int[] midas = new int[20];
 		
@@ -63,111 +65,34 @@ public class backend : MonoBehaviour {
 		//Midas Turn
 		//-Draw card
 			if(Input.GetKeyDown("d")){			
-				int spot = System.Array.IndexOf(midas, 0);
-				midas[spot]= Random.Range(1, 6);
-				Debug.Log("At " + spot + " val = " + midas[spot]);
+				drawCard();
 			}
 		//-Move
 			//Player inputs a direction to move via arrow keys.
 			if (Input.GetKeyDown("up"))
 			{
-				int[] location = findLocation(1);
-				if(owned[location[0]-1,location[1]] == 1){
-					position[location[0],location[1]] = 0;
-					position[location[0]-1,location[1]] = 1;
-					printPositionMap();
-				}else if(owned[location[0]-1,location[1]] == 2){
-					Debug.Log("Ahh hell naw.");
-					//break;
-				}else if (owned[location[0]-1,location[1]] == 0){
-					Debug.Log("Purchasing");
-					bool passed = purchase(1, location[0]-1,location[1]);
-					if(passed){
-						//printPositionMap();
-						position[location[0],location[1]] = 0;
-						position[location[0]-1,location[1]] = 1;
-						printOwnedMap();
-					}
-				}
-				
-				
+				moveUp();
 			}
 			else if (Input.GetKeyDown("down"))
 			{
-				
-				int[] location = findLocation(1);
-				if(owned[location[0]+1,location[1]] == 1){
-					position[location[0],location[1]] = 0;
-					position[location[0]+1,location[1]] = 1;
-					printPositionMap();
-				}else if(owned[location[0]+1,location[1]] == 2){
-					Debug.Log("Ahh hell naw.");
-					//break;
-				}else if (owned[location[0]+1,location[1]] == 0){
-					Debug.Log("Purchasing");				
-					bool passed = purchase(1, location[0]+1,location[1]);
-					if(passed){
-						//printPositionMap();
-						position[location[0],location[1]] = 0;
-						position[location[0]+1,location[1]] = 1;
-						printOwnedMap();
-					}
-				}
-				
-				
+				moveDown();
 			}	
 			else if (Input.GetKeyDown("left"))
 			{
-
-				int[] location = findLocation(1);
-				if(owned[location[0],location[1]-1] == 1){
-					position[location[0],location[1]] = 0;
-					position[location[0],location[1]-1] = 1;
-					printPositionMap();
-				}else if(owned[location[0],location[1]-1] == 2){
-					Debug.Log("Ahh hell naw.");
-					//break;
-				}else if (owned[location[0],location[1]-1] == 0){
-					Debug.Log("Purchasing");					
-					bool passed = purchase(1, location[0],location[1]-1);
-					if(passed){
-						//printPositionMap();
-						position[location[0],location[1]] = 0;
-						position[location[0],location[1]-1] = 1;
-						printOwnedMap();
-					}
-				}
+				moveLeft();
 			}
 			
 			else if (Input.GetKeyDown("right"))
 			{
-				int[] location = findLocation(1);
-				if(owned[location[0],location[1]+1] == 1){
-					position[location[0],location[1]] = 0;
-					position[location[0],location[1]+1] = 1;
-					printPositionMap();
-				}else if(owned[location[0],location[1]+1] == 2){
-					Debug.Log("Ahh hell naw.");
-					//break;
-				}else if (owned[location[0],location[1]+1] == 0){
-					Debug.Log("Purchasing");
-					bool passed = purchase(1, location[0],location[1]+1);
-					Debug.Log(passed);
-					if(passed){
-						//printPositionMap();
-						position[location[0], location[1]] = 0;
-						position[location[0], location[1]+1] = 1;
-						printOwnedMap();
-					}
-				}
+				moveRight();
 			}		
 	}
 	
 
 	public void drawCard(int player){
-		//int spot = System.Array.IndexOf(midas, 0);
-		//midas[spot]= Random.Range(1, 6);
-		//Debug.Log("At " + spot + " val = " + midas[spot]);
+		int spot = System.Array.IndexOf(midas, 0);
+		midas[spot]= Random.Range(1, 6);
+		Debug.Log("At " + spot + " val = " + midas[spot]);
 	}
 	
 	
@@ -246,6 +171,93 @@ public class backend : MonoBehaviour {
 			yield return false;
 		}
 		//}
+	}
+	
+	
+	public void moveLeft(){
+		int[] location = findLocation(1);
+		if(owned[location[0],location[1]-1] == 1){
+			position[location[0],location[1]] = 0;
+			position[location[0],location[1]-1] = 1;
+			printPositionMap();
+		}else if(owned[location[0],location[1]-1] == 2){
+			Debug.Log("Ahh hell naw.");
+			//break;
+		}else if (owned[location[0],location[1]-1] == 0){
+			Debug.Log("Purchasing");					
+			bool passed = purchase(1, location[0],location[1]-1);
+			if(passed){
+				//printPositionMap();
+				position[location[0],location[1]] = 0;
+				position[location[0],location[1]-1] = 1;
+				printOwnedMap();
+			}
+		}
+	}
+	
+	public void moveRight(){
+		int[] location = findLocation(1);
+		if(owned[location[0],location[1]+1] == 1){
+			position[location[0],location[1]] = 0;
+			position[location[0],location[1]+1] = 1;
+			printPositionMap();
+		}else if(owned[location[0],location[1]+1] == 2){
+			Debug.Log("Ahh hell naw.");
+			//break;
+		}else if (owned[location[0],location[1]+1] == 0){
+			Debug.Log("Purchasing");
+			bool passed = purchase(1, location[0],location[1]+1);
+			Debug.Log(passed);
+			if(passed){
+				//printPositionMap();
+				position[location[0], location[1]] = 0;
+				position[location[0], location[1]+1] = 1;
+				printOwnedMap();
+			}
+		}
+	}
+	
+	public void moveUp(){
+		int[] location = findLocation(1);
+		if(owned[location[0]-1,location[1]] == 1){
+			position[location[0],location[1]] = 0;
+			position[location[0]-1,location[1]] = 1;
+			printPositionMap();
+		}else if(owned[location[0]-1,location[1]] == 2){
+			Debug.Log("Ahh hell naw.");
+			//break;
+		}else if (owned[location[0]-1,location[1]] == 0){
+			Debug.Log("Purchasing");
+			bool passed = purchase(1, location[0]-1,location[1]);
+			if(passed){
+				//printPositionMap();
+				position[location[0],location[1]] = 0;
+				position[location[0]-1,location[1]] = 1;
+				printOwnedMap();
+			}
+		}
+	}
+	
+	public void moveDown(){
+		int[] location = findLocation(1);
+		if(owned[location[0]+1,location[1]] == 1){
+			position[location[0],location[1]] = 0;
+			position[location[0]+1,location[1]] = 1;
+			printPositionMap();
+		}else if(owned[location[0]+1,location[1]] == 2){
+			Debug.Log("Ahh hell naw.");
+			//break;
+		}else if (owned[location[0]+1,location[1]] == 0){
+			Debug.Log("Purchasing");				
+			bool passed = purchase(1, location[0]+1,location[1]);
+			if(passed){
+				//printPositionMap();
+				position[location[0],location[1]] = 0;
+				position[location[0]+1,location[1]] = 1;
+				printOwnedMap();
+			}
+		}
+		
 	}
 /**		
 Apollo Turn
