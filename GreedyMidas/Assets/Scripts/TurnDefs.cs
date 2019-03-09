@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurnDefs : MonoBehaviour
+[System.Serializable]
+public class TurnDefs
 {
     public enum Player
     {
@@ -10,15 +11,4 @@ public class TurnDefs : MonoBehaviour
         TWO
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
