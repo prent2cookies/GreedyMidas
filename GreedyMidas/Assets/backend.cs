@@ -32,6 +32,13 @@ public class backend : MonoBehaviour {
 		{
 			Debug.Log(position[i,0] + "\t" + position[i,1] + "\t" + position[i,2] + "\t" + position[i,3] + "\t" + position[i,4]);
 		}
+	}
+	void Update () {
+		if(Input.GetKeyDown("q")){
+			Turn();
+		}
+	}	
+		
 	//Midas Turn
 		//-Draw card
 		/**for(int i = 0; i < 10; i++){
@@ -49,13 +56,12 @@ public class backend : MonoBehaviour {
 				//check if midas array has the correct # of keys needed.
 				//If so, remove keys from inventory
 				//update owned at that location to a 1
-	}
 	
 	// Update is called once per frame
-	void Update () {
+	public void Turn () {
 	
 		//Midas Turn
-			//-Draw card
+		//-Draw card
 			if(Input.GetKeyDown("d")){			
 				int spot = System.Array.IndexOf(midas, 0);
 				midas[spot]= Random.Range(1, 6);
@@ -211,14 +217,17 @@ public class backend : MonoBehaviour {
 			Debug.Log("Can't Purchase");
 		}else{
 			Debug.Log("Want to Purchase? y or n.");
-			 StartCoroutine(YourCoroutineName( player,  x,  y, spot));
 		}
 		
 		return false;
 		
 	}
 	
-	
+	IEnumerator YourCoroutineName2(){
+			Turn();
+			yield return true;
+		
+	}
 	
 	
 	IEnumerator YourCoroutineName(int player, int x, int y, int spot){
