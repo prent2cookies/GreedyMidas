@@ -152,6 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ae5b43482c7454692858079187267b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  completedAction: 0
+  completedMove: 0
+  canPurchase: 0
+  purchaseX: -1
+  purchaseY: -1
+  spot: -1
+  said: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -221,3 +228,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayer: 0
+  b: {fileID: 519420030}

@@ -11,11 +11,17 @@ public class backend : MonoBehaviour {
 	
 	int[] apollo = new int[20];
 	int[] midas = new int[20];
-    bool completedAction = false;
-    bool completedMove = false;
-    bool canPurchase = false;
+    public bool completedAction = false;
+    public bool completedMove = false;
+    public bool canPurchase = false;
     Turns turns;
 
+	public int purchaseX = -1;
+	public int purchaseY = -1;
+	public int spot = -1;
+	int[] location;
+	public bool said = false;
+	
     // Use this for initialization
     void Start () {
         turns = GetComponent<Turns>();
@@ -45,7 +51,11 @@ public class backend : MonoBehaviour {
         if (Input.GetKeyDown("d") && completedAction == false)
         { //draw card
             DrawCard();
+		}else {
+			Turn();
 		}
+			
+			
 	}	
 		
 	//Midas Turn
@@ -66,18 +76,21 @@ public class backend : MonoBehaviour {
 				//If so, remove keys from inventory
 				//update owned at that location to a 1
 	
-	// Update is called once per frame
 	public void Turn () {
 	
 		//Midas Turn
 		//-Draw card
-        else if((Input.GetKeyDown("up")|| Input.GetKeyDown("down") || Input.GetKeyDown("left") || Input.GetKeyDown("right")) && completedMove == false)
+        if((Input.GetKeyDown("up")|| Input.GetKeyDown("down") || Input.GetKeyDown("left") || Input.GetKeyDown("right")) && completedMove == false)
         { //movement
             Move();
         }
         else if(completedMove == true && completedAction == true)
         {
-            Debug.Log("Your move is already complete! Next Player's turn");
+			if(!said){
+				Debug.Log("Your move is already complete! Next Player's turn");
+				said = true;
+			}
+
         }
 
         if(canPurchase == true && Input.GetKeyDown("y"))
@@ -91,10 +104,7 @@ public class backend : MonoBehaviour {
 
     }
 
-    // Update is called once per frame
     void DrawCard() {
-        //Midas Turn
-        //-Draw card
         int spot = System.Array.IndexOf(midas, 0);
         midas[spot] = Random.Range(1, 6);
         Debug.Log("At " + spot + " val = " + midas[spot]);
@@ -102,8 +112,6 @@ public class backend : MonoBehaviour {
     }
 
     void Move() {
-		//-Move
-			//Player inputs a direction to move via arrow keys.
 			if (Input.GetKeyDown("up"))
 			{
 				moveUp();
@@ -122,6 +130,7 @@ public class backend : MonoBehaviour {
 				moveRight();
 			}		
 	}	
+	
 	
 	public int[] findLocation(int player){
 		int found_i = -1;
@@ -162,59 +171,37 @@ public class backend : MonoBehaviour {
 	}
 	
 	public bool purchase(int player, int x, int y){
-		//return true if succesfull, false otherwise
-		//Open Door?
-		int spot = System.Array.IndexOf(midas, cards[x,y]);
+		spot = System.Array.IndexOf(midas, cards[x,y]);
 		if(spot == -1){
 			Debug.Log("Can't Purchase");
 		}else{
 			Debug.Log("Want to Purchase? y or n.");
             canPurchase = true;
 		}
-		
+		purchaseX = x;
+		purchaseY = y;
 		return false;
 		
 	}
-	
-	//IEnumerator YourCoroutineName2(){
-	//		Turn();
-	//		yield return true;
-		
-	//}
+
 	
 	void Purchase()
     {
         Debug.Log("Purchased");
-        owned[x, y] = 1;
+        owned[purchaseX, purchaseY] = 1;
         midas[spot] = 0;
         canPurchase = false;
         position[location[0], location[1]] = 0;
         position[location[0] + 1, location[1]] = 1;
         completedMove = true;
         completedAction = true;
+		purchaseX = -1;
+		purchaseY = -1;
         printOwnedMap();
     }
-	/*
-	IEnumerator YourCoroutineName(int player, int x, int y, int spot){
-		// Your code that you want here 
-		// In this case is the for function
-		while ( !Input.GetKeyDown("y") && !Input.GetKeyDown("n"))
-                 yield return null;
-			 
-		if (Input.GetKeyDown("y")){
-			Debug.Log("Purchased");
-			owned[x, y] = 1;
-			midas[spot] = 0;
-			yield return true;
-		}else if(Input.GetKeyDown("n")){
-			Debug.Log("Rejected");
-			yield return false;
-		}
-	}
-	*/
-	
+
 	public void moveLeft(){
-		int[] location = findLocation(1);
+		location = findLocation(1);
 		if(owned[location[0],location[1]-1] == 1){
 			position[location[0],location[1]] = 0;
 			position[location[0],location[1]-1] = 1;
@@ -235,7 +222,7 @@ public class backend : MonoBehaviour {
 	}
 	
 	public void moveRight(){
-		int[] location = findLocation(1);
+		location = findLocation(1);
 		if(owned[location[0],location[1]+1] == 1){
 			position[location[0],location[1]] = 0;
 			position[location[0],location[1]+1] = 1;
@@ -257,7 +244,7 @@ public class backend : MonoBehaviour {
 	}
 	
 	public void moveUp(){
-		int[] location = findLocation(1);
+		location = findLocation(1);
 		if(owned[location[0]-1,location[1]] == 1){
 			position[location[0],location[1]] = 0;
 			position[location[0]-1,location[1]] = 1;
@@ -278,7 +265,7 @@ public class backend : MonoBehaviour {
 	}
 	
 	public void moveDown(){
-		int[] location = findLocation(1);
+		location = findLocation(1);
 		if(owned[location[0]+1,location[1]] == 1){
 			position[location[0],location[1]] = 0;
 			position[location[0]+1,location[1]] = 1;
@@ -298,7 +285,7 @@ public class backend : MonoBehaviour {
 		}
 		
 	}
-	}
+}
 /**		
 Apollo Turn
 -Draw card
@@ -312,5 +299,3 @@ Apollo Turn
 		If so, remove keys from inventory
 		update owned at that location to a 1
 */
-
-}

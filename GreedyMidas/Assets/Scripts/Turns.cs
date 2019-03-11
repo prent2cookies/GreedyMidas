@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using backend;
+using static backend;
 
 public class Turns : MonoBehaviour
 {
     public TurnDefs player;
     public TurnDefs.Player currentPlayer = TurnDefs.Player.ONE;
-
+	public backend b;
+	
+	void Start(){	
+		//b = gameObject.AddComponent<backend>();
+	}
+	
     void OnGUI()
 
     {
@@ -36,13 +41,24 @@ public class Turns : MonoBehaviour
         {
             currentPlayer = TurnDefs.Player.TWO;
             ApolloTurn.StartTurn();
+			
         }
 
 
         else
         {
             currentPlayer = TurnDefs.Player.ONE;
-            MidasTurn.StartTurn();
+            //MidasTurn.StartTurn();
+			    b.completedAction = false;
+				b.completedMove = false;
+				b.canPurchase = false;
+				b.purchaseX = -1;
+				b.purchaseY = -1;
+				b.spot = -1;
+				b.said = false;
+			
+			b.Turn();
+			
         }
     }
 
