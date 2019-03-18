@@ -8,14 +8,10 @@ public class Turns : MonoBehaviour
     public TurnDefs player;
     public TurnDefs.Player currentPlayer = TurnDefs.Player.ONE;
 	public backend b;
+	public MidasTurn m;
+	public ApolloTurn a;
 	
-	void Start(){	
-		//b = gameObject.AddComponent<backend>();
-	}
-	
-    void OnGUI()
-
-    {
+    void OnGUI(){
         CurrentTurn();
     }
 
@@ -25,30 +21,32 @@ public class Turns : MonoBehaviour
         if (currentPlayer == TurnDefs.Player.ONE) {
             display = "Player One";
         }
-        else
-        {
+        else{
             display =  "Player Two";
         }
 
-        if (GUILayout.Button(display + ": Click to change Player"))
-        {
+        if (GUILayout.Button(display + ": Click to change Player")){
             NextTurn();
         }
     }
 
     void NextTurn() {
-        if (currentPlayer == TurnDefs.Player.ONE)
-        {
+        if (currentPlayer == TurnDefs.Player.ONE){
             currentPlayer = TurnDefs.Player.TWO;
-            ApolloTurn.StartTurn();
 			
-        }
-
-
-        else
-        {
+				b.completedAction = false;
+				b.completedMove = false;
+				b.canPurchase = false;
+				b.purchaseX = -1;
+				b.purchaseY = -1;
+				b.spot = -1;
+				b.said = false;
+				a.Turn();
+				
+        }else{
             currentPlayer = TurnDefs.Player.ONE;
             //MidasTurn.StartTurn();
+			
 			    b.completedAction = false;
 				b.completedMove = false;
 				b.canPurchase = false;
@@ -57,8 +55,20 @@ public class Turns : MonoBehaviour
 				b.spot = -1;
 				b.said = false;
 			
-			b.Turn();
+				m.Turn();
+			/*
 			
+				m.completedAction = false;
+				m.completedMove = false;
+				m.canPurchase = false;
+				m.purchaseX = -1;
+				m.purchaseY = -1;
+				m.spot = -1;
+				m.said = false;
+			
+				m.Turn();
+				*/
+
         }
     }
 
