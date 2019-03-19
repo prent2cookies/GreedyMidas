@@ -33,42 +33,36 @@ public class Turns : MonoBehaviour
     void NextTurn() {
         if (currentPlayer == TurnDefs.Player.ONE){
             currentPlayer = TurnDefs.Player.TWO;
+		
+			b.completedAction = false;
+			b.completedMove = false;
+			b.canPurchase = false;
+			b.purchaseX = -1;
+			b.purchaseY = -1;
+			b.spot = -1;
+			b.said = false;
 			
-				b.completedAction = false;
-				b.completedMove = false;
-				b.canPurchase = false;
-				b.purchaseX = -1;
-				b.purchaseY = -1;
-				b.spot = -1;
-				b.said = false;
-				a.Turn();
+			a.Turn();
+			if(a.checkWin() >= 13){
+				Debug.Log("Apollo Wins!");
+				return;
+			}
 				
         }else{
             currentPlayer = TurnDefs.Player.ONE;
-            //MidasTurn.StartTurn();
-			
-			    b.completedAction = false;
-				b.completedMove = false;
-				b.canPurchase = false;
-				b.purchaseX = -1;
-				b.purchaseY = -1;
-				b.spot = -1;
-				b.said = false;
-			
-				m.Turn();
-			/*
-			
-				m.completedAction = false;
-				m.completedMove = false;
-				m.canPurchase = false;
-				m.purchaseX = -1;
-				m.purchaseY = -1;
-				m.spot = -1;
-				m.said = false;
-			
-				m.Turn();
-				*/
-
+			b.completedAction = false;
+			b.completedMove = false;
+			b.canPurchase = false;
+			b.purchaseX = -1;
+			b.purchaseY = -1;
+			b.spot = -1;
+			b.said = false;
+		
+			m.Turn();
+			if(m.checkWin() >= 13){
+				Debug.Log("Midas Wins!");
+				return;
+			}
         }
     }
 

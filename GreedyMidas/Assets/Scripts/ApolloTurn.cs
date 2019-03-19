@@ -11,10 +11,10 @@ public class ApolloTurn : MonoBehaviour
 	
 	void Update () {
         TurnDefs.Player currentTurn = b.turns.GetCurrentTurn();
-        if (Input.GetKeyDown("d") && b.completedAction == false)
+        if (Input.GetKeyDown("d") && b.completedAction == false && currentTurn == TurnDefs.Player.TWO)
         { //draw card
             DrawCard();
-		}else {
+		}else if(currentTurn == TurnDefs.Player.TWO){
 			Turn();
 		}
 			
@@ -154,7 +154,7 @@ public class ApolloTurn : MonoBehaviour
         b.apollo[b.spot] = 0;
         b.canPurchase = false;
         b.position[b.location[0], b.location[1]] = 0;
-        b.position[b.location[0], b.location[1]] = 2;
+		b.position[b.purchaseX, b.purchaseY] = 2;
         b.completedMove = true;
         b.completedAction = true;
 		b.purchaseX = -1;
@@ -249,5 +249,25 @@ public class ApolloTurn : MonoBehaviour
 			}
 		}
 		
+	}
+	
+	public int checkWin(){
+		int count = 0;
+		int[] location = new int[2];
+		for(int i = 0; i < 5; ++i)
+		{
+			for(int j = 0; j < 5; ++j)
+			{
+				if( b.owned[i,j] == 2) // (or maybe 'object.ReferenceEqual')
+				{
+					count++;
+					//return location;
+				}
+			}
+		}
+		location[0] = 9;
+		location[1] = 9;
+		Debug.Log("count: " + count);
+		return count;
 	}
 }
