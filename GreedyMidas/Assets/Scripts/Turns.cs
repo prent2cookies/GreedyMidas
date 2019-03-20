@@ -47,6 +47,8 @@ public class Turns : MonoBehaviour
 				Debug.Log("Apollo Wins!");
 				return;
 			}
+			
+			b.TurnPrompt.text = "Apollo Turn";
         }else{
             currentPlayer = TurnDefs.Player.ONE;
 			b.completedAction = false;
@@ -62,6 +64,8 @@ public class Turns : MonoBehaviour
 				Debug.Log("Midas Wins!");
 				return;
 			}
+			
+			b.TurnPrompt.text = "Midas Turn";
         }
     }
 

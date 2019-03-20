@@ -6,6 +6,10 @@ using UnityEngine.UI;
 public class backend : MonoBehaviour {
 
 	public Text board;
+	public Text prompt;
+	public Text MidasText;
+	public Text ApolloText;
+	public Text TurnPrompt;
 	//Could be 1 struct?
 	public int[,] cards = new int[5,5];
 	public int[,] owned = new int[5,5];
@@ -34,6 +38,10 @@ public class backend : MonoBehaviour {
 		position[4,2] = 2; //(Apollo start)
 		
 		board.text = "";
+		prompt.text = "";		
+		MidasText.text = "Midas has no cards.";
+		ApolloText.text = "Apollo has no cards.";
+		TurnPrompt.text = "Midas Turn";
 		
 		for(int i=0;i<5;i++)
 		{
@@ -48,12 +56,12 @@ public class backend : MonoBehaviour {
 				//Debug.Log("At " + i + "," + j + " val = " + cards[i,j]);
 			}
 		}
-		
+		/*
 		for (int i = 0; i < 5; i++)
 		{
 			Debug.Log(position[i,0] + "\t" + position[i,1] + "\t" + position[i,2] + "\t" + position[i,3] + "\t" + position[i,4]);
 		}
-
+		*/
 	}
 
 	
