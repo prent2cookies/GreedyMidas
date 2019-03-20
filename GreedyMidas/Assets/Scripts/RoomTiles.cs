@@ -11,25 +11,6 @@ public class RoomTiles : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-                switch (b.cards[index[0],index[1]])
-                {
-                    case 1://set up room 1
-                ChangeAnimationState(1);
-                break;
-                    case 2://set up room 2
-                ChangeAnimationState(2);
-                break;
-                    case 3://set up room 3
-                ChangeAnimationState(3);
-                break;
-                    case 4://set up room 4
-                ChangeAnimationState(4);
-                break;
-                    default:
-                ChangeAnimationState(0);
-                break;
-      
-                }
     }
 
     void ChangeAnimationState(int value)
@@ -40,6 +21,25 @@ public class RoomTiles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(b.cards[index[0], index[1]]);
+        switch (b.cards[index[0], index[1]])
+        {
+            case 1://set up room 1
+                ChangeAnimationState(1);
+                break;
+            case 2://set up room 2
+                ChangeAnimationState(2);
+                break;
+            case 3://set up room 3
+                ChangeAnimationState(3);
+                break;
+            case 4://set up room 4
+                ChangeAnimationState(4);
+                break;
+            default:
+                ChangeAnimationState(0);
+                break;
+
+        }
     }
 }

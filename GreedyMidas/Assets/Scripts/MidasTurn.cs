@@ -23,7 +23,7 @@ public class MidasTurn : MonoBehaviour
 		
 	//Midas Turn
 		//-Draw card
-		/**for(int i = 0; i < 10; i++){
+		/*for(int i = 0; i < 10; i++){
 			//Radomnize a # 1-5 and put in midas Array
 			int spot = System.Array.IndexOf(midas, 0);
 			midas[spot]= Random.Range(1, 6);
