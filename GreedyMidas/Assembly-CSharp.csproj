@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\ApolloTurn.cs" />
     <Compile Include="Assets\Scripts\backend.cs" />
     <Compile Include="Assets\Scripts\MidasTurn.cs" />
+    <Compile Include="Assets\Scripts\RoomTiles.cs" />
     <Compile Include="Assets\Scripts\TurnDefs.cs" />
     <Compile Include="Assets\Scripts\Turns.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">

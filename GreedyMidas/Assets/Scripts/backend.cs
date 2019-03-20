@@ -39,8 +39,9 @@ public class backend : MonoBehaviour {
 		{
 			for(int j=0;j<5;j++)
 			{
-				cards[i, j]= Random.Range(1, 6);
+				cards[i, j]= Random.Range(1, 5);
 				board.text += cards[i,j];
+
 				if(j == 4){
 						board.text += "\n";
 				}
@@ -52,6 +53,7 @@ public class backend : MonoBehaviour {
 		{
 			Debug.Log(position[i,0] + "\t" + position[i,1] + "\t" + position[i,2] + "\t" + position[i,3] + "\t" + position[i,4]);
 		}
+
 	}
 
 	
