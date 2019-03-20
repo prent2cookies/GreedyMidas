@@ -164,13 +164,18 @@ public class MidasTurn : MonoBehaviour
 
 	public void moveLeft(){
 		b.location = findlocation(1);
+		
 		if(b.owned[b.location[0],b.location[1]-1] == 1){
+			if(b.position[b.location[0],b.location[1]-1] == 2){
+				Debug.Log("COLLISION - Midas Wins!");
+				return;
+			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0],b.location[1]-1] = 1;
 			printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0],b.location[1]-1] == 2){
-			Debug.Log("Ahh hell naw.");
+			Debug.Log("Claimed by an Enemy.");
 			//break;
 		}else if (b.owned[b.location[0],b.location[1]-1] == 0){
 			Debug.Log("Purchasing");					
@@ -186,13 +191,18 @@ public class MidasTurn : MonoBehaviour
 	
 	public void moveRight(){
 		b.location = findlocation(1);
+		
 		if(b.owned[b.location[0],b.location[1]+1] == 1){
+			if(b.position[b.location[0],b.location[1]+1] == 2){
+				Debug.Log("COLLISION - Midas Wins!");
+				return;
+			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0],b.location[1]+1] = 1;
 			printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0],b.location[1]+1] == 2){
-			Debug.Log("Ahh hell naw.");
+			Debug.Log("Claimed by an Enemy.");
 			//break;
 		}else if (b.owned[b.location[0],b.location[1]+1] == 0){
 			Debug.Log("Purchasing");
@@ -208,13 +218,18 @@ public class MidasTurn : MonoBehaviour
 	
 	public void moveUp(){
 		b.location = findlocation(1);
+
 		if(b.owned[b.location[0]-1,b.location[1]] == 1){
+			if(b.position[b.location[0]-1,b.location[1]] == 2){
+				Debug.Log("COLLISION - Midas Wins!");
+				return;
+			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0]-1,b.location[1]] = 1;
 			printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0]-1,b.location[1]] == 2){
-			Debug.Log("Ahh hell naw.");
+			Debug.Log("Claimed by an Enemy.");
 			//break;
 		}else if (b.owned[b.location[0]-1,b.location[1]] == 0){
 			Debug.Log("Purchasing");
@@ -231,12 +246,16 @@ public class MidasTurn : MonoBehaviour
 	public void moveDown(){
 		b.location = findlocation(1);
 		if(b.owned[b.location[0]+1,b.location[1]] == 1){
+			if(b.position[b.location[0]+1,b.location[1]] == 2){
+				Debug.Log("COLLISION - Midas Wins!");
+				return;
+			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0]+1,b.location[1]] = 1;
 			printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0]+1,b.location[1]] == 2){
-			Debug.Log("Ahh hell naw.");
+			Debug.Log("Claimed by an Enemy.");
 			//break;
 		}else if (b.owned[b.location[0]+1,b.location[1]] == 0){
 			Debug.Log("Purchasing");				
@@ -267,7 +286,9 @@ public class MidasTurn : MonoBehaviour
 		}
 		location[0] = 9;
 		location[1] = 9;
-		Debug.Log("count: " + count);
+		if(count > 11){
+			Debug.Log("Midas is 1 card from winning!");
+		}
 		return count;
 	}
 }
