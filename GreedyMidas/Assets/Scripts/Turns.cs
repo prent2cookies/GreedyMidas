@@ -47,7 +47,6 @@ public class Turns : MonoBehaviour
 				Debug.Log("Apollo Wins!");
 				return;
 			}
-				
         }else{
             currentPlayer = TurnDefs.Player.ONE;
 			b.completedAction = false;
