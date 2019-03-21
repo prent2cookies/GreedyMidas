@@ -51,7 +51,7 @@ public class ApolloTurn : MonoBehaviour
         else if(b.completedMove == true && b.completedAction == true)
         {
 			if(!b.said){
-				b.prompt.text = "Your move is already complete! Next Player's turn";
+				//b.prompt.text = "Your move is already complete! Next Player's turn";
 				b.said = true;
 			}
 
@@ -170,6 +170,12 @@ public class ApolloTurn : MonoBehaviour
 		b.purchaseX = -1;
 		b.purchaseY = -1;
         printownedMap();
+		b.ApolloText.text = "";
+		for(int i=0; i < b.apollo.Length; i++){
+			if(b.apollo[i] != 0){
+				b.ApolloText.text += b.apollo[i].ToString() + ", ";
+			}
+		}
     }
 
 	public void moveLeft(){

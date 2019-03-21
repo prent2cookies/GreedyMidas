@@ -51,7 +51,7 @@ public class MidasTurn : MonoBehaviour
         else if(b.completedMove == true && b.completedAction == true)
         {
 			if(!b.said){
-				b.prompt.text = "Your move is already complete! Next Player's turn";
+				//b.prompt.text = "Your move is already complete! Next Player's turn";
 				b.said = true;
 			}
 
