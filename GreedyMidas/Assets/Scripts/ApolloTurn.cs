@@ -58,27 +58,29 @@ public class ApolloTurn : MonoBehaviour
         //b.apollo[spot] = Random.Range(1, 6); temporary
         randomNumber = Random.Range(1, 101);
 		//40 iron, 30 lead, 20 bronze, 10 silver
-		if(randomNumber <= 40){
+		if(randomNumber <= 35){
 			b.apollo[spot] = 4;
-		}else if(randomNumber <= 70){
+		}else if(randomNumber <= 65){
 			b.apollo[spot] = 3;
-		}else if(randomNumber <= 90){
+		}else if(randomNumber <= 85){
 			b.apollo[spot] = 1;
-		}else{
+		}else if(randomNumber <= 95){
 			b.apollo[spot] = 2;
+		}else{
+			b.apollo[spot] = 5;
 		}
 		b.ApolloText.text = "Apollo's Keys:\n";
 		
 		
 		int sum = 0;
-		for(int j = 1; j < 5; j++){
+		for(int j = 1; j < 6; j++){
 			for(int i=0; i < b.apollo.Length; i++){
 				if(b.apollo[i] == j){
 					sum++;
 				}
 				
 			}
-			b.ApolloText.text += sum.ToString() + " " + b.colorText[j-1] + "\n";
+			b.ApolloText.text += sum.ToString() + " " + b.colorText[j-1 ] + "\n";
 			sum = 0;
 		}
         b.completedAction = true;
@@ -178,7 +180,7 @@ public class ApolloTurn : MonoBehaviour
         //printownedMap();
 		b.ApolloText.text = "";
 		int sum = 0;
-		for(int j = 1; j < 5; j++){
+		for(int j = 1; j < 6; j++){
 			for(int i=0; i < b.apollo.Length; i++){
 				if(b.apollo[i] == j){
 					sum++;

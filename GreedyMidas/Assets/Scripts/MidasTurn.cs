@@ -58,20 +58,22 @@ public class MidasTurn : MonoBehaviour
         //b.midas[spot] = Random.Range(1, 6); temporary
         randomNumber = Random.Range(1, 101);
 		//40 iron, 30 lead, 20 bronze, 10 silver
-		if(randomNumber <= 40){
+		if(randomNumber <= 35){
 			b.midas[spot] = 4;
-		}else if(randomNumber <= 70){
+		}else if(randomNumber <= 65){
 			b.midas[spot] = 3;
-		}else if(randomNumber <= 90){
+		}else if(randomNumber <= 85){
 			b.midas[spot] = 1;
-		}else{
+		}else if(randomNumber <= 95){
 			b.midas[spot] = 2;
+		}else{
+			b.midas[spot] = 5;
 		}
         //b.prompt.text = "At " + spot + " val = " + b.midas[spot]);
 		b.MidasText.text = "Midas's Keys:\n";
 		
 		int sum = 0;
-		for(int j = 1; j < 5; j++){
+		for(int j = 1; j < 6; j++){
 			for(int i=0; i < b.midas.Length; i++){
 				if(b.midas[i] == j){
 					sum++;
@@ -177,7 +179,7 @@ public class MidasTurn : MonoBehaviour
         //printownedMap();
 		b.MidasText.text = "";
 		int sum = 0;
-		for(int j = 1; j < 5; j++){
+		for(int j = 1; j < 6; j++){
 			for(int i=0; i < b.midas.Length; i++){
 				if(b.midas[i] == j){
 					sum++;
