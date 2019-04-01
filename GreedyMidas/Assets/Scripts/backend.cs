@@ -26,8 +26,8 @@ public class backend : MonoBehaviour {
 	public int spot = -1;
 	public int[] location;
 	public bool said = false;
-	
-	public string[] colorText = new string[4] {"Bronze", "Silver", "Lead", "Wrought Iron"};
+	int randomNumber;
+	public string[] colorText = new string[5] {"Bronze", "Silver", "Lead", "Wrought Iron", "Skeleton"};
 	
     // Use this for initialization
     void Start () {
@@ -47,7 +47,18 @@ public class backend : MonoBehaviour {
 		{
 			for(int j=0;j<5;j++)
 			{
-				cards[i, j]= Random.Range(1, 5);
+				randomNumber = Random.Range(1, 101);
+				//40 iron, 30 lead, 20 bronze, 10 silver
+				if(randomNumber <= 40){
+					cards[i, j] = 4;
+				}else if(randomNumber <= 70){
+					cards[i, j] = 3;
+				}else if(randomNumber <= 90){
+					cards[i, j] = 1;
+				}else{
+					cards[i, j] = 2;
+				}
+				//cards[i, j]= Random.Range(1, 5);
 				//board.text += cards[i,j];
 
 				//if(j == 4){

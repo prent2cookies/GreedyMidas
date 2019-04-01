@@ -8,6 +8,7 @@ using static backend;
 public class MidasTurn : MonoBehaviour
 {
 	public backend b;
+	int randomNumber;
 	
 	void Update () {
         TurnDefs.Player currentTurn = b.turns.GetCurrentTurn();
@@ -55,7 +56,17 @@ public class MidasTurn : MonoBehaviour
     public void DrawCard() {
         int spot = System.Array.IndexOf(b.midas, 0);
         //b.midas[spot] = Random.Range(1, 6); temporary
-        b.midas[spot] = Random.Range(1, 5);
+        randomNumber = Random.Range(1, 101);
+		//40 iron, 30 lead, 20 bronze, 10 silver
+		if(randomNumber <= 40){
+			b.midas[spot] = 4;
+		}else if(randomNumber <= 70){
+			b.midas[spot] = 3;
+		}else if(randomNumber <= 90){
+			b.midas[spot] = 1;
+		}else{
+			b.midas[spot] = 2;
+		}
         //b.prompt.text = "At " + spot + " val = " + b.midas[spot]);
 		b.MidasText.text = "Midas's Keys:\n";
 		
@@ -133,7 +144,12 @@ public class MidasTurn : MonoBehaviour
 	public bool purchase(int player, int x, int y){
 		b.spot = System.Array.IndexOf(b.midas, b.cards[x,y]);
 		if(b.spot == -1){
-			b.prompt.text = "Can't Purchase";
+			b.spot = System.Array.IndexOf(b.midas, 5);
+			if(b.spot == -1){
+				b.prompt.text = "Can't Purchase";
+			}else{
+				b.prompt.text = "Use Skeleton Key To Purchase? y or n.";
+			}
 		}else{
 			b.prompt.text = "Want to Purchase? y or n.";
             b.canPurchase = true;

@@ -8,6 +8,7 @@ using static backend;
 public class ApolloTurn : MonoBehaviour
 {
 	public backend b;
+	int randomNumber;
 	
 	void Update () {
         TurnDefs.Player currentTurn = b.turns.GetCurrentTurn();
@@ -55,8 +56,17 @@ public class ApolloTurn : MonoBehaviour
     public void DrawCard() {
         int spot = System.Array.IndexOf(b.apollo, 0);
         //b.apollo[spot] = Random.Range(1, 6); temporary
-        b.apollo[spot] = Random.Range(1, 5);
-        //b.prompt.text = "At " + spot + " val = " + b.apollo[spot]);
+        randomNumber = Random.Range(1, 101);
+		//40 iron, 30 lead, 20 bronze, 10 silver
+		if(randomNumber <= 40){
+			b.apollo[spot] = 4;
+		}else if(randomNumber <= 70){
+			b.apollo[spot] = 3;
+		}else if(randomNumber <= 90){
+			b.apollo[spot] = 1;
+		}else{
+			b.apollo[spot] = 2;
+		}
 		b.ApolloText.text = "Apollo's Keys:\n";
 		
 		
@@ -134,7 +144,12 @@ public class ApolloTurn : MonoBehaviour
 	public bool purchase(int player, int x, int y){
 		b.spot = System.Array.IndexOf(b.apollo, b.cards[x,y]);
 		if(b.spot == -1){
-			b.prompt.text = "Can't Purchase";
+			b.spot = System.Array.IndexOf(b.midas, 5);
+			if(b.spot == -1){
+				b.prompt.text = "Can't Purchase";
+			}else{
+				b.prompt.text = "Use Skeleton Key To Purchase? y or n.";
+			}
 		}else{
 			//b.prompt.text = "Want to Purchase? y or n.");
 			b.prompt.text = "Want to Purchase? y or n.";
