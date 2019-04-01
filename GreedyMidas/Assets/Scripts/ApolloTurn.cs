@@ -20,24 +20,6 @@ public class ApolloTurn : MonoBehaviour
 			
 			
 	}	
-		
-	//apollo Turn
-		//-Draw card
-		/**for(int i = 0; i < 10; i++){
-			//Radomnize a # 1-5 and put in apollo Array
-			int spot = System.Array.IndexOf(apollo, 0);
-			apollo[spot]= Random.Range(1, 6);
-			b.prompt.text = "At " + spot + " val = " + apollo[spot]);
-		}*/
-		
-		//-Move
-			//Player inputs a direction to move via arrow keys.
-			//If b.owned at that b.location is 1, move. If 2, prevent
-			//If 0:
-				//Optional: Open Door?
-				//check if apollo array has the correct # of keys needed.
-				//If so, remove keys from inventory
-				//update b.owned at that b.location to a 1
 	
 	public void Turn () {
 	
@@ -57,29 +39,37 @@ public class ApolloTurn : MonoBehaviour
 
         }
 
-       if(b.canPurchase == true && Input.GetKeyDown("y"))
+		if(b.canPurchase == true && Input.GetKeyDown("y") && b.completedMove == false)
 			{
 				Purchase();
 				b.completedMove = true;
 			}
-		else if(b.canPurchase == true && Input.GetKeyDown("n"))
+		else if(b.canPurchase == true && Input.GetKeyDown("n") && b.completedMove == false)
 		{
-			//b.prompt.text = "Rejected");
 			b.prompt.text = "Rejected";
 			b.completedMove = true;
 		}
 
     }
 
-    void DrawCard() {
+    public void DrawCard() {
         int spot = System.Array.IndexOf(b.apollo, 0);
-        b.apollo[spot] = Random.Range(1, 6);
+        //b.apollo[spot] = Random.Range(1, 6); temporary
+        b.apollo[spot] = Random.Range(1, 5);
         //b.prompt.text = "At " + spot + " val = " + b.apollo[spot]);
-		b.ApolloText.text = "";
-		for(int i=0; i < b.apollo.Length; i++){
-			if(b.apollo[i] != 0){
-				b.ApolloText.text += b.apollo[i].ToString() + ", ";
+		b.ApolloText.text = "Apollo's Keys:\n";
+		
+		
+		int sum = 0;
+		for(int j = 1; j < 5; j++){
+			for(int i=0; i < b.apollo.Length; i++){
+				if(b.apollo[i] == j){
+					sum++;
+				}
+				
 			}
+			b.ApolloText.text += sum.ToString() + " " + b.colorText[j-1] + "\n";
+			sum = 0;
 		}
         b.completedAction = true;
     }
@@ -159,22 +149,28 @@ public class ApolloTurn : MonoBehaviour
 	
 	void Purchase()
     {
+		int[] loc = new int[2];
         b.prompt.text = "Purchased";
         b.owned[b.purchaseX, b.purchaseY] = 2;
         b.apollo[b.spot] = 0;
         b.canPurchase = false;
-        b.position[b.location[0], b.location[1]] = 0;
-		b.position[b.purchaseX, b.purchaseY] = 2;
+		loc = findlocation(2);
+        b.position[loc[0], loc[1]] = 0;
+        b.position[b.purchaseX, b.purchaseY] = 2;
         b.completedMove = true;
-        b.completedAction = true;
 		b.purchaseX = -1;
 		b.purchaseY = -1;
-        printownedMap();
+        //printownedMap();
 		b.ApolloText.text = "";
-		for(int i=0; i < b.apollo.Length; i++){
-			if(b.apollo[i] != 0){
-				b.ApolloText.text += b.apollo[i].ToString() + ", ";
+		int sum = 0;
+		for(int j = 1; j < 5; j++){
+			for(int i=0; i < b.apollo.Length; i++){
+				if(b.apollo[i] == j){
+					sum++;
+				}		
 			}
+			b.ApolloText.text += sum.ToString() + " " + b.colorText[j-1] + "\n";
+			sum = 0;
 		}
     }
 
@@ -187,7 +183,7 @@ public class ApolloTurn : MonoBehaviour
 			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0],b.location[1]-1] = 2;
-			printpositionMap();
+			//printpositionMap();
 			b.completedMove = true;
 		}else if (b.owned[b.location[0],b.location[1]-1] == 0){
 			b.prompt.text = "Purchasing";					
@@ -210,7 +206,7 @@ public class ApolloTurn : MonoBehaviour
 			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0],b.location[1]+1] = 2;
-			printpositionMap();
+			//printpositionMap();
 			b.completedMove = true;
 		}else if (b.owned[b.location[0],b.location[1]+1] == 0){
 			b.prompt.text = "Purchasing";
@@ -233,7 +229,7 @@ public class ApolloTurn : MonoBehaviour
 			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0]-1,b.location[1]] = 2;
-			printpositionMap();
+			//printpositionMap();
 			b.completedMove = true;
 		}else if (b.owned[b.location[0]-1,b.location[1]] == 0){
 			b.prompt.text = "Purchasing";
@@ -256,7 +252,7 @@ public class ApolloTurn : MonoBehaviour
 			}	
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0]+1,b.location[1]] = 2;
-			printpositionMap();
+			//printpositionMap();
 			b.completedMove = true;
 		}else if (b.owned[b.location[0]+1,b.location[1]] == 0){
 			b.prompt.text = "Purchasing";				

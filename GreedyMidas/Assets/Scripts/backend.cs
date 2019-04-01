@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class backend : MonoBehaviour {
 
-	public Text board;
 	public Text prompt;
 	public Text MidasText;
 	public Text ApolloText;
@@ -28,6 +27,8 @@ public class backend : MonoBehaviour {
 	public int[] location;
 	public bool said = false;
 	
+	public string[] colorText = new string[4] {"Bronze", "Silver", "Lead", "Wrought Iron"};
+	
     // Use this for initialization
     void Start () {
         turns = GetComponent<Turns>();
@@ -37,7 +38,6 @@ public class backend : MonoBehaviour {
 		position[0,2] = 1; //(midas start)
 		position[4,2] = 2; //(Apollo start)
 		
-		board.text = "";
 		prompt.text = "";		
 		MidasText.text = "Midas has no cards.";
 		ApolloText.text = "Apollo has no cards.";
@@ -48,14 +48,15 @@ public class backend : MonoBehaviour {
 			for(int j=0;j<5;j++)
 			{
 				cards[i, j]= Random.Range(1, 5);
-				board.text += cards[i,j];
+				//board.text += cards[i,j];
 
-				if(j == 4){
-						board.text += "\n";
-				}
+				//if(j == 4){
+				//		board.text += "\n";
+				//}
 				//Debug.Log("At " + i + "," + j + " val = " + cards[i,j]);
 			}
 		}
+		
 		/*
 		for (int i = 0; i < 5; i++)
 		{

@@ -20,24 +20,6 @@ public class MidasTurn : MonoBehaviour
 			
 			
 	}	
-		
-	//Midas Turn
-		//-Draw card
-		/*for(int i = 0; i < 10; i++){
-			//Radomnize a # 1-5 and put in midas Array
-			int spot = System.Array.IndexOf(midas, 0);
-			midas[spot]= Random.Range(1, 6);
-			b.prompt.text = "At " + spot + " val = " + midas[spot]);
-		}*/
-		
-		//-Move
-			//Player inputs a direction to move via arrow keys.
-			//If b.owned at that b.location is 1, move. If 2, prevent
-			//If 0:
-				//Optional: Open Door?
-				//check if midas array has the correct # of keys needed.
-				//If so, remove keys from inventory
-				//update b.owned at that b.location to a 1
 	
 	public void Turn () {
 	
@@ -57,12 +39,12 @@ public class MidasTurn : MonoBehaviour
 
         }
 
-       if(b.canPurchase == true && Input.GetKeyDown("y"))
+       if(b.canPurchase == true && Input.GetKeyDown("y") && b.completedMove == false)
 			{
 				Purchase();
 				b.completedMove = true;
 			}
-		else if(b.canPurchase == true && Input.GetKeyDown("n"))
+		else if(b.canPurchase == true && Input.GetKeyDown("n") && b.completedMove == false)
 		{
 			b.prompt.text = "Rejected";
 			b.completedMove = true;
@@ -70,15 +52,23 @@ public class MidasTurn : MonoBehaviour
 
     }
 
-    void DrawCard() {
+    public void DrawCard() {
         int spot = System.Array.IndexOf(b.midas, 0);
-        b.midas[spot] = Random.Range(1, 6);
+        //b.midas[spot] = Random.Range(1, 6); temporary
+        b.midas[spot] = Random.Range(1, 5);
         //b.prompt.text = "At " + spot + " val = " + b.midas[spot]);
-		b.MidasText.text = "";
-		for(int i=0; i < b.midas.Length; i++){
-			if(b.midas[i] != 0){
-				b.MidasText.text += b.midas[i].ToString() + ", ";
+		b.MidasText.text = "Midas's Keys:\n";
+		
+		int sum = 0;
+		for(int j = 1; j < 5; j++){
+			for(int i=0; i < b.midas.Length; i++){
+				if(b.midas[i] == j){
+					sum++;
+				}
+				
 			}
+			b.MidasText.text += sum.ToString() + " " + b.colorText[j-1] + "\n";
+			sum = 0;
 		}
         b.completedAction = true;
     }
@@ -126,7 +116,7 @@ public class MidasTurn : MonoBehaviour
 		b.prompt.text = "";
 		for (int i = 0; i < 5; i++)
 			{
-				b.prompt.text += b.position[i,0] + "\t" + b.position[i,1] + "\t" + b.position[i,2] + "\t" + b.position[i,3] + "\t" + b.position[i,4];
+				b.prompt.text += b.position[i,0] + "\n" + b.position[i,1] + "\n" + b.position[i,2] + "\n" + b.position[i,3] + "\n" + b.position[i,4];
 			}
 	}
 	
@@ -136,7 +126,7 @@ public class MidasTurn : MonoBehaviour
 		b.prompt.text = "";
 		for (int i = 0; i < 5; i++)
 			{
-				b.prompt.text += b.owned[i,0] + "\t" + b.owned[i,1] + "\t" + b.owned[i,2] + "\t" + b.owned[i,3] + "\t" + b.owned[i,4];
+				b.prompt.text += b.owned[i,0] + "\t" + b.owned[i,1] + "\t" + b.owned[i,2] + "\t" + b.owned[i,3] + "\t" + b.owned[i,4] + "\n";
 			}
 	}
 	
@@ -157,22 +147,28 @@ public class MidasTurn : MonoBehaviour
 	
 	void Purchase()
     {
+		int[] loc = new int[2];
         b.prompt.text = "Purchased";
         b.owned[b.purchaseX, b.purchaseY] = 1;
         b.midas[b.spot] = 0;
         b.canPurchase = false;
-        b.position[b.location[0], b.location[1]] = 0;
+		loc = findlocation(1);
+        b.position[loc[0], loc[1]] = 0;
         b.position[b.purchaseX, b.purchaseY] = 1;
         b.completedMove = true;
-        b.completedAction = true;
 		b.purchaseX = -1;
 		b.purchaseY = -1;
-        printownedMap();
+        //printownedMap();
 		b.MidasText.text = "";
-		for(int i=0; i < b.midas.Length; i++){
-			if(b.midas[i] != 0){
-				b.MidasText.text += b.midas[i].ToString() + ", ";
+		int sum = 0;
+		for(int j = 1; j < 5; j++){
+			for(int i=0; i < b.midas.Length; i++){
+				if(b.midas[i] == j){
+					sum++;
+				}		
 			}
+			b.MidasText.text += sum.ToString() + " " + b.colorText[j-1] + "\n";
+			sum = 0;
 		}
     }
 
@@ -186,7 +182,7 @@ public class MidasTurn : MonoBehaviour
 			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0],b.location[1]-1] = 1;
-			printpositionMap();
+			//printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0],b.location[1]-1] == 2){
 			b.prompt.text = "Claimed by an Enemy.";
@@ -213,7 +209,7 @@ public class MidasTurn : MonoBehaviour
 			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0],b.location[1]+1] = 1;
-			printpositionMap();
+			//printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0],b.location[1]+1] == 2){
 			b.prompt.text = "Claimed by an Enemy.";
@@ -240,7 +236,7 @@ public class MidasTurn : MonoBehaviour
 			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0]-1,b.location[1]] = 1;
-			printpositionMap();
+			//printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0]-1,b.location[1]] == 2){
 			b.prompt.text = "Claimed by an Enemy.";
@@ -266,7 +262,7 @@ public class MidasTurn : MonoBehaviour
 			}
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0]+1,b.location[1]] = 1;
-			printpositionMap();
+			//printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0]+1,b.location[1]] == 2){
 			b.prompt.text = "Claimed by an Enemy.";
@@ -276,6 +272,7 @@ public class MidasTurn : MonoBehaviour
 			bool passed = purchase(1, b.location[0]+1,b.location[1]);
 			if(passed){
 				//printb.positionMap();
+				Debug.Log("Hello");
 				b.position[b.location[0],b.location[1]] = 0;
 				b.position[b.location[0]+1,b.location[1]] = 1;
 				printownedMap();

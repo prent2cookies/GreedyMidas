@@ -28,6 +28,24 @@ public class Turns : MonoBehaviour
         if (GUILayout.Button(display + ": Click to change Player")){
             NextTurn();
         }
+		
+		if (GUILayout.Button("Draw a Card")){
+            if(currentPlayer == TurnDefs.Player.ONE && b.completedAction == false){
+				m.DrawCard();
+			}else if(currentPlayer == TurnDefs.Player.TWO && b.completedAction == false){
+				a.DrawCard();
+			}
+        }
+		
+		if(GUILayout.Button("Purchase: Yes")){
+            if(currentPlayer == TurnDefs.Player.ONE && b.canPurchase == true){
+				m.Purchase();
+			}else if(currentPlayer == TurnDefs.Player.TWO && b.canPurchase == true){
+				a.Purchase();
+			}
+        }else if(GUILayout.Button("Purchase: No")){
+			
+		}
     }
 
     void NextTurn() {
