@@ -145,7 +145,7 @@ public class MidasTurn : MonoBehaviour
 	}
 
 	
-	void Purchase()
+	public void Purchase()
     {
 		int[] loc = new int[2];
         b.prompt.text = "Purchased";

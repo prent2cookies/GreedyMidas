@@ -44,7 +44,8 @@ public class Turns : MonoBehaviour
 				a.Purchase();
 			}
         }else if(GUILayout.Button("Purchase: No")){
-			
+			b.prompt.text = "Rejected";
+			b.completedMove = true;
 		}
     }
 
