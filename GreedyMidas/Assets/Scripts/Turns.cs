@@ -10,7 +10,11 @@ public class Turns : MonoBehaviour
 	public backend b;
 	public MidasTurn m;
 	public ApolloTurn a;
-	
+    public GameObject Panel;
+    public GameObject Instructions;
+    public string labelText = "Play!";
+
+
     void OnGUI(){
         CurrentTurn();
     }
@@ -18,35 +22,65 @@ public class Turns : MonoBehaviour
     void CurrentTurn() {
         string display;
 
-        if (currentPlayer == TurnDefs.Player.ONE) {
-            display = "Player One";
-        }
-        else{
-            display =  "Player Two";
-        }
+        if (labelText == "Help")
+        {
+            if (currentPlayer == TurnDefs.Player.ONE)
+            {
+                display = "Player One";
+            }
+            else
+            {
+                display = "Player Two";
+            }
 
-        if (GUILayout.Button(display + ": Click to change Player")){
-            NextTurn();
+            if (GUILayout.Button(display + ": Click to change Player"))
+            {
+                NextTurn();
+            }
+
+            if (GUILayout.Button("Draw a Card"))
+            {
+                if (currentPlayer == TurnDefs.Player.ONE && b.completedAction == false)
+                {
+                    m.DrawCard();
+                }
+                else if (currentPlayer == TurnDefs.Player.TWO && b.completedAction == false)
+                {
+                    a.DrawCard();
+                }
+            }
+
+            if (GUILayout.Button("Purchase: Yes"))
+            {
+                if (currentPlayer == TurnDefs.Player.ONE && b.canPurchase == true)
+                {
+                    m.Purchase();
+                }
+                else if (currentPlayer == TurnDefs.Player.TWO && b.canPurchase == true)
+                {
+                    a.Purchase();
+                }
+            }
+            else if (GUILayout.Button("Purchase: No"))
+            {
+                b.prompt.text = "Rejected";
+                b.completedMove = true;
+            }
         }
-		
-		if (GUILayout.Button("Draw a Card")){
-            if(currentPlayer == TurnDefs.Player.ONE && b.completedAction == false){
-				m.DrawCard();
-			}else if(currentPlayer == TurnDefs.Player.TWO && b.completedAction == false){
-				a.DrawCard();
-			}
+        if (GUILayout.Button(labelText))
+        {
+            if(labelText == "Help") {
+                Instructions.gameObject.SetActive(true);
+                Panel.gameObject.SetActive(true);
+                labelText = "Continue";
+            }
+            else
+            {
+                Instructions.gameObject.SetActive(false);
+                Panel.gameObject.SetActive(false);
+                labelText = "Help";
+            }
         }
-		
-		if(GUILayout.Button("Purchase: Yes")){
-            if(currentPlayer == TurnDefs.Player.ONE && b.canPurchase == true){
-				m.Purchase();
-			}else if(currentPlayer == TurnDefs.Player.TWO && b.canPurchase == true){
-				a.Purchase();
-			}
-        }else if(GUILayout.Button("Purchase: No")){
-			b.prompt.text = "Rejected";
-			b.completedMove = true;
-		}
     }
 
     void NextTurn() {
