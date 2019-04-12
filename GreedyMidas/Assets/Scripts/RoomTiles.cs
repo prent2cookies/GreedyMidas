@@ -89,6 +89,17 @@ public class RoomTiles : MonoBehaviour
 								a.moveUp();
 							}
 							
+						}else if(b.owned[index[0], index[1]] == 1 && b.completedMove == false){
+							if(index[1] < 4 && b.position[index[0],index[1]+1] == 2){
+								a.moveLeft();
+							}else if(index[1] > 0 && b.position[index[0],index[1]-1] == 2){
+								a.moveRight();
+							}else if(index[0] > 0 && b.position[index[0]-1,index[1]] == 2){
+								a.moveDown();
+							}else if(index[0] < 4 && b.position[index[0]+1,index[1]] == 2){
+								a.moveUp();
+							}
+							
 						}
 					}
 				}
