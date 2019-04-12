@@ -151,6 +151,7 @@ public class MidasTurn : MonoBehaviour
 				b.prompt.text = "Can't Purchase";
 			}else{
 				b.prompt.text = "Use Skeleton Key To Purchase? y or n.";
+				b.canPurchase = true;
 			}
 		}else{
 			b.prompt.text = "Want to Purchase? y or n.";
