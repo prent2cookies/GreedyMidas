@@ -123,9 +123,12 @@ public class RoomTiles : MonoBehaviour
         }
         else if(b.owned[index[0], index[1]] == 1)
         {
-            if(b.position[index[0], index[1]] == 1)
+            if (b.position[index[0], index[1]] == 1)
             {
                 ChangeAnimationState(5);
+            }
+            else if (b.position[index[0], index[1]] == 2) {
+                ChangeAnimationState(9);
             }
             else
             {
