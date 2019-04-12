@@ -195,7 +195,7 @@ public class ApolloTurn : MonoBehaviour
 	public void moveLeft(){
 		b.location = findlocation(2);
 		if(b.owned[b.location[0],b.location[1]-1] == 2 || b.owned[b.location[0],b.location[1]-1] == 1){
-			if(b.owned[b.location[0],b.location[1]-1] == 1){
+			if(b.position[b.location[0],b.location[1]-1] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				return;
 			}
@@ -218,7 +218,7 @@ public class ApolloTurn : MonoBehaviour
 	public void moveRight(){
 		b.location = findlocation(2);
 		if(b.owned[b.location[0],b.location[1]+1] == 2 || b.owned[b.location[0],b.location[1]+1] == 1){
-			if(b.owned[b.location[0],b.location[1]+1] == 1){
+			if(b.position[b.location[0],b.location[1]+1] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				return;
 			}
@@ -264,7 +264,7 @@ public class ApolloTurn : MonoBehaviour
 	public void moveDown(){
 		b.location = findlocation(2);
 		if(b.owned[b.location[0]+1,b.location[1]] == 2 || b.owned[b.location[0]+1,b.location[1]] == 1){
-			if(b.owned[b.location[0]+1,b.location[1]] == 1){
+			if(b.position[b.location[0]+1,b.location[1]] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				return;
 			}	

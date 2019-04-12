@@ -21,10 +21,10 @@ MonoBehaviour:
     y: 30
     width: 1280
     height: 587
-  m_MinSize: {x: 583, y: 448}
-  m_MaxSize: {x: 12008, y: 8048}
+  m_MinSize: {x: 579, y: 424}
+  m_MaxSize: {x: 12004, y: 8048}
   vertical: 0
-  controlID: 242
+  controlID: 706
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -126,10 +126,10 @@ MonoBehaviour:
     y: 0
     width: 1000
     height: 587
-  m_MinSize: {x: 306, y: 448}
-  m_MaxSize: {x: 8006, y: 8048}
+  m_MinSize: {x: 304, y: 424}
+  m_MaxSize: {x: 8004, y: 8048}
   vertical: 1
-  controlID: 243
+  controlID: 667
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -151,10 +151,10 @@ MonoBehaviour:
     y: 0
     width: 1000
     height: 253
-  m_MinSize: {x: 306, y: 224}
-  m_MaxSize: {x: 8006, y: 4024}
+  m_MinSize: {x: 304, y: 200}
+  m_MaxSize: {x: 8004, y: 4024}
   vertical: 0
-  controlID: 244
+  controlID: 623
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -212,7 +212,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 127.99835}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: d6fbffffe2280000
+      m_ExpandedIDs: d6fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -555,19 +555,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Artwork
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Artwork
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\cindy\Documents\GitHub\GreedyMidas\GreedyMidas
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 28270000
-    m_LastClickedID: 10024
+    m_SelectedIDs: 4c280000
+    m_LastClickedID: 10316
     m_ExpandedIDs: 000000000a260000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -621,10 +621,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 50240000
-    m_LastClickedInstanceID: 9296
+    m_SelectedInstanceIDs: 2a260000
+    m_LastClickedInstanceID: 9770
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c6230000362700005e26000062260000bc26000074290000
+    m_ExpandedInstanceIDs: c6230000362700005e26000062260000bc260000742900002a260000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -670,8 +670,8 @@ MonoBehaviour:
     y: 0
     width: 280
     height: 587
-  m_MinSize: {x: 277, y: 74}
-  m_MaxSize: {x: 4002, y: 4024}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
