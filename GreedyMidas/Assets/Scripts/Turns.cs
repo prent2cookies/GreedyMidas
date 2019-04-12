@@ -26,11 +26,11 @@ public class Turns : MonoBehaviour
         {
             if (currentPlayer == TurnDefs.Player.ONE)
             {
-                display = "Player One";
+                display = "Midas Player (yellow)";
             }
             else
             {
-                display = "Player Two";
+                display = "Apollo Player (blue)";
             }
 
             if (GUILayout.Button(display + ": Click to change Player"))
