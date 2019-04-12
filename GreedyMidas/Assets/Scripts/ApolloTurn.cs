@@ -146,11 +146,12 @@ public class ApolloTurn : MonoBehaviour
 	public bool purchase(int player, int x, int y){
 		b.spot = System.Array.IndexOf(b.apollo, b.cards[x,y]);
 		if(b.spot == -1){
-			b.spot = System.Array.IndexOf(b.midas, 5);
+			b.spot = System.Array.IndexOf(b.apollo, 5);
 			if(b.spot == -1){
 				b.prompt.text = "Can't Purchase";
 			}else{
 				b.prompt.text = "Use Skeleton Key To Purchase? y or n.";
+				b.canPurchase = true;
 			}
 		}else{
 			//b.prompt.text = "Want to Purchase? y or n.");
