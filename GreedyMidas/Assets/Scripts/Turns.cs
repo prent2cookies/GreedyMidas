@@ -81,6 +81,11 @@ public class Turns : MonoBehaviour
                 labelText = "Help";
             }
         }
+
+        if (GUILayout.Button("Exit"))
+        {
+            Application.Quit();
+        }
     }
 
     void NextTurn() {
