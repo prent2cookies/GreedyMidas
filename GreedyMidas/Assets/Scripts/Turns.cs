@@ -101,6 +101,10 @@ public class Turns : MonoBehaviour
 			b.said = false;
 			
 			a.Turn();
+			if(m.checkWin() >= 13){
+				Debug.Log("Midas Wins!");
+				return;
+			}
 			if(a.checkWin() >= 13){
 				Debug.Log("Apollo Wins!");
 				return;
@@ -120,6 +124,10 @@ public class Turns : MonoBehaviour
 			m.Turn();
 			if(m.checkWin() >= 13){
 				Debug.Log("Midas Wins!");
+				return;
+			}
+			if(a.checkWin() >= 13){
+				Debug.Log("Apollo Wins!");
 				return;
 			}
 			

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static backend;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 
 public class ApolloTurn : MonoBehaviour
@@ -35,6 +37,7 @@ public class ApolloTurn : MonoBehaviour
         {
 			if(!b.said){
 				//b.prompt.text = "Your move is already complete! Next Player's turn";
+				checkWin();
 				b.said = true;
 			}
 
@@ -197,6 +200,7 @@ public class ApolloTurn : MonoBehaviour
 		if(b.owned[b.location[0],b.location[1]-1] == 2 || b.owned[b.location[0],b.location[1]-1] == 1){
 			if(b.position[b.location[0],b.location[1]-1] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
+				SceneManager.LoadScene("MidasWins");
 				return;
 			}
 			b.position[b.location[0],b.location[1]] = 0;
@@ -220,6 +224,7 @@ public class ApolloTurn : MonoBehaviour
 		if(b.owned[b.location[0],b.location[1]+1] == 2 || b.owned[b.location[0],b.location[1]+1] == 1){
 			if(b.position[b.location[0],b.location[1]+1] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
+				SceneManager.LoadScene("MidasWins");
 				return;
 			}
 			b.position[b.location[0],b.location[1]] = 0;
@@ -243,6 +248,7 @@ public class ApolloTurn : MonoBehaviour
 		if(b.owned[b.location[0]-1,b.location[1]] == 2 || b.owned[b.location[0]-1,b.location[1]] == 1){
 			if(b.position[b.location[0]-1,b.location[1]] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
+				SceneManager.LoadScene("MidasWins");
 				return;
 			}
 			b.position[b.location[0],b.location[1]] = 0;
@@ -266,6 +272,7 @@ public class ApolloTurn : MonoBehaviour
 		if(b.owned[b.location[0]+1,b.location[1]] == 2 || b.owned[b.location[0]+1,b.location[1]] == 1){
 			if(b.position[b.location[0]+1,b.location[1]] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
+				SceneManager.LoadScene("MidasWins");
 				return;
 			}	
 			b.position[b.location[0],b.location[1]] = 0;
@@ -301,8 +308,11 @@ public class ApolloTurn : MonoBehaviour
 		}
 		location[0] = 9;
 		location[1] = 9;
-		if(count > 11){
-			b.prompt.text = "Apollo is 1 card from winning!";
+		if(count >= 13){
+			b.prompt.text = "Apollo wins!";
+			SceneManager.LoadScene("ApolloWins");
+		}else if(count == 12){
+			b.prompt.text = "Midas is 1 card from winning!";
 		}
 		return count;
 	}
