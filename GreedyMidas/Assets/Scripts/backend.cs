@@ -9,8 +9,20 @@ public class backend : MonoBehaviour {
 	public Text MidasText;
 	public Text ApolloText;
 	public Text TurnPrompt;
-	//Could be 1 struct?
-	public int[,] cards = new int[5,5];
+
+    public Text MidasCard1; //bronze
+    public Text MidasCard2; //silver
+    public Text MidasCard3; //lead
+    public Text MidasCard4; //wrought iron
+    public Text MidasCard5; //skeleton
+
+    public Text ApolloCard1;
+    public Text ApolloCard2;
+    public Text ApolloCard3;
+    public Text ApolloCard4;
+    public Text ApolloCard5;
+    //Could be 1 struct?
+    public int[,] cards = new int[5,5];
 	public int[,] owned = new int[5,5];
 	public int[,] position = new int[5,5];
 	

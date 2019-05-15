@@ -86,6 +86,11 @@ public class MidasTurn : MonoBehaviour
 			b.MidasText.text += sum.ToString() + " " + b.colorText[j-1] + "\n";
 			sum = 0;
 		}
+        b.MidasCard1.text = GetCards(1);
+        b.MidasCard2.text = GetCards(2);
+        b.MidasCard3.text = GetCards(3);
+        b.MidasCard4.text = GetCards(4);
+        b.MidasCard5.text = GetCards(5);
         b.completedAction = true;
     }
 
@@ -192,6 +197,11 @@ public class MidasTurn : MonoBehaviour
 			b.MidasText.text += sum.ToString() + " " + b.colorText[j-1] + "\n";
 			sum = 0;
 		}
+        b.MidasCard1.text = GetCards(1);
+        b.MidasCard2.text = GetCards(2);
+        b.MidasCard3.text = GetCards(3);
+        b.MidasCard4.text = GetCards(4);
+        b.MidasCard5.text = GetCards(5);
     }
 
 	public void moveLeft(){
@@ -331,4 +341,19 @@ public class MidasTurn : MonoBehaviour
 		}
 		return count;
 	}
+
+    public string GetCards(int j)
+    {
+        int sum = 0;
+        for (int i = 0; i < b.midas.Length; i++)
+        {
+            if (b.midas[i] == j)
+            {
+                sum++;
+            }
+
+        }
+        return sum.ToString();
+    }
+
 }

@@ -86,6 +86,11 @@ public class ApolloTurn : MonoBehaviour
 			b.ApolloText.text += sum.ToString() + " " + b.colorText[j-1 ] + "\n";
 			sum = 0;
 		}
+        b.ApolloCard1.text = GetCards(1);
+        b.ApolloCard2.text = GetCards(2);
+        b.ApolloCard3.text = GetCards(3);
+        b.ApolloCard4.text = GetCards(4);
+        b.ApolloCard5.text = GetCards(5);
         b.completedAction = true;
     }
 
@@ -193,6 +198,11 @@ public class ApolloTurn : MonoBehaviour
 			b.ApolloText.text += sum.ToString() + " " + b.colorText[j-1] + "\n";
 			sum = 0;
 		}
+        b.ApolloCard1.text = GetCards(1);
+        b.ApolloCard2.text = GetCards(2);
+        b.ApolloCard3.text = GetCards(3);
+        b.ApolloCard4.text = GetCards(4);
+        b.ApolloCard5.text = GetCards(5);
     }
 
 	public void moveLeft(){
@@ -316,4 +326,18 @@ public class ApolloTurn : MonoBehaviour
 		}
 		return count;
 	}
+
+    public string GetCards(int j)
+    {
+        int sum = 0;
+        for (int i = 0; i < b.apollo.Length; i++)
+        {
+            if (b.apollo[i] == j)
+            {
+                sum++;
+            }
+
+        }
+        return sum.ToString();
+    }
 }
