@@ -368,7 +368,7 @@ public class MidasTurn : MonoBehaviour
 		}else if (b.owned[b.location[0]+1,b.location[1]] == 0){ //attempts purchase since room is not owned
 
             b.prompt.text = "Purchasing";				
-			bool passed = purchase(1, b.location[0]+1,b.location[1])
+			bool passed = purchase(1, b.location[0]+1,b.location[1]);
 
             //only runs if purchase was successful, adjusts player location
             if (passed){
