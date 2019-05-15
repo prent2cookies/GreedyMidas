@@ -70,15 +70,15 @@ public class ApolloTurn : MonoBehaviour
 
         //determines what type of card is drawn by the number given
 		if(randomNumber <= 35){
-			b.apollo[spot] = 4;
+			b.apollo[spot] = 4; //wrought iron key
 		}else if(randomNumber <= 65){
-			b.apollo[spot] = 3;
+			b.apollo[spot] = 3; //lead key
 		}else if(randomNumber <= 85){
-			b.apollo[spot] = 1;
+			b.apollo[spot] = 1; //bronze key
 		}else if(randomNumber <= 95){
-			b.apollo[spot] = 2;
+			b.apollo[spot] = 2; //silver key
 		}else{
-			b.apollo[spot] = 5;
+			b.apollo[spot] = 5; //skeleton key
 		}
 
         //prints key inventory

@@ -71,15 +71,15 @@ public class MidasTurn : MonoBehaviour
 
         //determines what type of card is drawn by the number given
         if (randomNumber <= 35){
-			b.midas[spot] = 4;
+			b.midas[spot] = 4; //wrought iron key
 		}else if(randomNumber <= 65){
-			b.midas[spot] = 3;
+			b.midas[spot] = 3; //lead key
 		}else if(randomNumber <= 85){
-			b.midas[spot] = 1;
+			b.midas[spot] = 1; //bronze key
 		}else if(randomNumber <= 95){
-			b.midas[spot] = 2;
+			b.midas[spot] = 2; //silver key
 		}else{
-			b.midas[spot] = 5;
+			b.midas[spot] = 5; //skeleton key
 		}
 
         //prints key inventory
