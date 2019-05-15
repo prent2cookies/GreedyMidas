@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//Basic script, holds enum used to determine current player
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [System.Serializable]
 public class TurnDefs
 {

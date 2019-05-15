@@ -4,35 +4,42 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class backend : MonoBehaviour {
+    
+    //Declaration of main game variables used in future scripts
 
+    //text information for player
 	public Text prompt;
 	public Text MidasText;
 	public Text ApolloText;
 	public Text TurnPrompt;
 
+    //Card Inventory Texts
     public Text MidasCard1; //bronze
     public Text MidasCard2; //silver
     public Text MidasCard3; //lead
     public Text MidasCard4; //wrought iron
     public Text MidasCard5; //skeleton
 
-    public Text ApolloCard1;
-    public Text ApolloCard2;
-    public Text ApolloCard3;
-    public Text ApolloCard4;
-    public Text ApolloCard5;
-    //Could be 1 struct?
+    public Text ApolloCard1; //bronze
+    public Text ApolloCard2; //silver
+    public Text ApolloCard3; //lead
+    public Text ApolloCard4; //wrought iron
+    public Text ApolloCard5; //skeleton
+   
+    //Tile location and ownership
     public int[,] cards = new int[5,5];
 	public int[,] owned = new int[5,5];
 	public int[,] position = new int[5,5];
 	
+    //player card inventories
 	public int[] apollo = new int[20];
 	public int[] midas = new int[20];
+
+    //game logic variables
     public bool completedAction = false;
     public bool completedMove = false;
     public bool canPurchase = false;
     public Turns turns;
-
 	public int purchaseX = -1;
 	public int purchaseY = -1;
 	public int spot = -1;
@@ -40,8 +47,10 @@ public class backend : MonoBehaviour {
 	public bool said = false;
 	int randomNumber;
 	public string[] colorText = new string[5] {"Bronze", "Silver", "Lead", "Wrought Iron", "Skeleton"};
-	
-    // Use this for initialization
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Initialized setup of game variables
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void Start () {
         turns = GetComponent<Turns>();
         owned[0,2] = 1; //(midas start)
@@ -70,22 +79,8 @@ public class backend : MonoBehaviour {
 				}else{
 					cards[i, j] = 2;
 				}
-				//cards[i, j]= Random.Range(1, 5);
-				//board.text += cards[i,j];
-
-				//if(j == 4){
-				//		board.text += "\n";
-				//}
-				//Debug.Log("At " + i + "," + j + " val = " + cards[i,j]);
 			}
 		}
-		
-		/*
-		for (int i = 0; i < 5; i++)
-		{
-			Debug.Log(position[i,0] + "\t" + position[i,1] + "\t" + position[i,2] + "\t" + position[i,3] + "\t" + position[i,4]);
-		}
-		*/
 	}
 
 	

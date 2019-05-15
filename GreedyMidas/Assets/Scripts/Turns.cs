@@ -5,23 +5,35 @@ using static backend;
 
 public class Turns : MonoBehaviour
 {
+    //stores current player, general player logic
     public TurnDefs player;
     public TurnDefs.Player currentPlayer = TurnDefs.Player.ONE;
+
+    //connects Midas and Apollo scripts, backend script
 	public backend b;
 	public MidasTurn m;
 	public ApolloTurn a;
+
+    //toggled tutorial page
     public GameObject Panel;
     public GameObject Instructions;
     public string labelText = "Play!";
 
-
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Calls CurrentTurn to set up UI buttons
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void OnGUI(){
         CurrentTurn();
     }
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Sets up the UI buttons and logic on the main screen
+    //Checks for turn completion
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void CurrentTurn() {
-        string display;
+        string display; //text on main screen indicating what player is currently going
 
+        //indicates that we are in game (turns to continue/play if on instructions screen)
         if (labelText == "Help")
         {
             if (currentPlayer == TurnDefs.Player.ONE)
@@ -35,18 +47,18 @@ public class Turns : MonoBehaviour
 
             if (GUILayout.Button(display + ": Click to change Player"))
             {
-                NextTurn();
+                NextTurn(); //after completing turn, resets necessary variables and checks for winstate. Switches turns.
             }
 
             if (GUILayout.Button("Draw a Card"))
             {
                 if (currentPlayer == TurnDefs.Player.ONE && b.completedAction == false)
                 {
-                    m.DrawCard();
+                    m.DrawCard(); //logic specific to MidasTurn script. Randomly draws a card.
                 }
                 else if (currentPlayer == TurnDefs.Player.TWO && b.completedAction == false)
                 {
-                    a.DrawCard();
+                    a.DrawCard(); //logic specific to ApolloTurn script. Randomly draws a card.
                 }
             }
 
@@ -54,19 +66,21 @@ public class Turns : MonoBehaviour
             {
                 if (currentPlayer == TurnDefs.Player.ONE && b.canPurchase == true)
                 {
-                    m.Purchase();
+                    m.Purchase(); //logic specific to MidasTurn script. Completes room purchase.
                 }
                 else if (currentPlayer == TurnDefs.Player.TWO && b.canPurchase == true)
                 {
-                    a.Purchase();
+                    a.Purchase(); //logic specific to ApolloTurn script. Completes room purchase.
                 }
             }
-            else if (GUILayout.Button("Purchase: No"))
+            else if (GUILayout.Button("Purchase: No")) //purchase is not possible with cards player has, or room is already owned
             {
                 b.prompt.text = "Rejected";
                 b.completedMove = true;
             }
         }
+
+        //logic for entering and exiting the instructions screen
         if (GUILayout.Button(labelText))
         {
             if(labelText == "Help") {
@@ -82,12 +96,18 @@ public class Turns : MonoBehaviour
             }
         }
 
+        //quits application
         if (GUILayout.Button("Exit"))
         {
             Application.Quit();
         }
     }
 
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Runs after completing turn
+    //Resets variables, checks win state, transfers control to other player
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void NextTurn() {
         if (currentPlayer == TurnDefs.Player.ONE){
             currentPlayer = TurnDefs.Player.TWO;
@@ -135,6 +155,10 @@ public class Turns : MonoBehaviour
         }
     }
 
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Gets player currently using their turn
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public TurnDefs.Player GetCurrentTurn() {
         return currentPlayer;
     }

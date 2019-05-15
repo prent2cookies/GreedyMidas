@@ -15,16 +15,20 @@ public class MidasTurn : MonoBehaviour
 	void Update () {
         TurnDefs.Player currentTurn = b.turns.GetCurrentTurn();
         if (Input.GetKeyDown("d") && b.completedAction == false && currentTurn == TurnDefs.Player.ONE)
-        { //draw card
+        {
             DrawCard();
 		}else if(currentTurn == TurnDefs.Player.ONE) {
 			Turn();
 		}
 			
 			
-	}	
-	
-	public void Turn () {
+	}
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Keyboard controls for turn
+    //UI button controls outlined in Turns.cs
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void Turn () {
 	
 		//Midas Turn
 		//-Draw card
@@ -33,10 +37,11 @@ public class MidasTurn : MonoBehaviour
             Move();
 			 
         }
-        else if(b.completedMove == true && b.completedAction == true)
+
+        //check for win state after completing turn
+        else if (b.completedMove == true && b.completedAction == true)
         {
 			if(!b.said){
-				//b.prompt.text = "Your move is already complete! Next Player's turn";
 				checkWin();
 				b.said = true;
 			}
@@ -56,12 +61,16 @@ public class MidasTurn : MonoBehaviour
 
     }
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Draws a randomized card
+    //Adds drawn card to player inventory
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void DrawCard() {
         int spot = System.Array.IndexOf(b.midas, 0);
-        //b.midas[spot] = Random.Range(1, 6); temporary
         randomNumber = Random.Range(1, 101);
-		//40 iron, 30 lead, 20 bronze, 10 silver
-		if(randomNumber <= 35){
+
+        //determines what type of card is drawn by the number given
+        if (randomNumber <= 35){
 			b.midas[spot] = 4;
 		}else if(randomNumber <= 65){
 			b.midas[spot] = 3;
@@ -72,9 +81,9 @@ public class MidasTurn : MonoBehaviour
 		}else{
 			b.midas[spot] = 5;
 		}
-        //b.prompt.text = "At " + spot + " val = " + b.midas[spot]);
-		b.MidasText.text = "Midas's Keys:\n";
-		
+
+        //prints key inventory
+        b.MidasText.text = "Midas's Keys:\n";
 		int sum = 0;
 		for(int j = 1; j < 6; j++){
 			for(int i=0; i < b.midas.Length; i++){
@@ -94,6 +103,10 @@ public class MidasTurn : MonoBehaviour
         b.completedAction = true;
     }
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Keyboard-controlled movement
+    //Button-controlled movement is outlined in Turns.cs
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void Move() {
 			if (Input.GetKeyDown("up")){
 				moveUp();
@@ -108,10 +121,12 @@ public class MidasTurn : MonoBehaviour
 				moveRight();
 			}
 			
-	}	
-	
-	
-	public int[] findlocation(int player){
+	}
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Gets the current location of a player
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public int[] findlocation(int player){
 		int found_i = -1;
 		int[] location = new int[2];
 		for(int i = 0; i < 5 && found_i < 0; ++i)
@@ -130,30 +145,41 @@ public class MidasTurn : MonoBehaviour
 		location[1] = 9;
 		return location;
 	}
-	
-		
-	public void printpositionMap(){
-		//b.prompt.text = "b.position Map";
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Prints position of players on map
+    //used for debugging
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+    public void printpositionMap(){
 		b.prompt.text = "";
 		for (int i = 0; i < 5; i++)
 			{
 				b.prompt.text += b.position[i,0] + "\n" + b.position[i,1] + "\n" + b.position[i,2] + "\n" + b.position[i,3] + "\n" + b.position[i,4];
 			}
 	}
-	
-	
-	public void printownedMap(){
-		//b.prompt.text = "b.owned Map";
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Prints text of owned and unowned tiles
+    //Used for debugging
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void printownedMap(){
 		b.prompt.text = "";
 		for (int i = 0; i < 5; i++)
 			{
 				b.prompt.text += b.owned[i,0] + "\t" + b.owned[i,1] + "\t" + b.owned[i,2] + "\t" + b.owned[i,3] + "\t" + b.owned[i,4] + "\n";
 			}
 	}
-	
-	public bool purchase(int player, int x, int y){
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Attempts purchase of unowned tile
+    //Returns bool true for success, false for failure
+    //fails when there are insufficient cards for purchase
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public bool purchase(int player, int x, int y){
 		b.spot = System.Array.IndexOf(b.midas, b.cards[x,y]);
-		if(b.spot == -1){
+
+        //runs if insufficient cards to purchase or player must use skeleton key to purchase
+        if (b.spot == -1){
 			b.spot = System.Array.IndexOf(b.midas, 5);
 			if(b.spot == -1){
 				b.prompt.text = "Can't Purchase";
@@ -161,7 +187,9 @@ public class MidasTurn : MonoBehaviour
 				b.prompt.text = "Use Skeleton Key To Purchase? y or n.";
 				b.canPurchase = true;
 			}
-		}else{
+
+        //runs if player can purchase, confirms player choice.
+        }else{
 			b.prompt.text = "Want to Purchase? y or n.";
             b.canPurchase = true;
 		}
@@ -171,8 +199,10 @@ public class MidasTurn : MonoBehaviour
 		
 	}
 
-	
-	public void Purchase()
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Updates variables after player confirms a valid purchase
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void Purchase()
     {
 		int[] loc = new int[2];
         b.prompt.text = "Purchased";
@@ -204,110 +234,144 @@ public class MidasTurn : MonoBehaviour
         b.MidasCard5.text = GetCards(5);
     }
 
-	public void moveLeft(){
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Attempts movement, left direction
+    //If not owned, attempts purchase
+    //Fails if insufficient cards or invalid location
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void moveLeft(){
 		b.location = findlocation(1);
 		
 		if(b.owned[b.location[0],b.location[1]-1] == 1){
-			if(b.position[b.location[0],b.location[1]-1] == 2){
+
+            //if Midas and Apollo are in the same room then Midas wins.
+            if (b.position[b.location[0],b.location[1]-1] == 2){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				SceneManager.LoadScene("MidasWins");
 				return;
 			}
-			b.position[b.location[0],b.location[1]] = 0;
+
+            //adjust player location
+            b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0],b.location[1]-1] = 1;
-			//printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0],b.location[1]-1] == 2){
 			b.prompt.text = "Claimed by an Enemy.";
-			//break;
-		}else if (b.owned[b.location[0],b.location[1]-1] == 0){
-			b.prompt.text = "Purchasing";					
+		}else if (b.owned[b.location[0],b.location[1]-1] == 0){ //attempts purchase since room is not owned
+            b.prompt.text = "Purchasing";					
 			bool passed = purchase(1, b.location[0],b.location[1]-1);
-			if(passed){
-				//printb.positionMap();
+
+            //only runs if purchase was successful, adjusts player location
+            if (passed){
 				b.position[b.location[0],b.location[1]] = 0;
 				b.position[b.location[0],b.location[1]-1] = 1;
 				printownedMap();
 			}
 		}
 	}
-	
-	public void moveRight(){
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Attempts movement, right direction
+    //If not owned, attempts purchase
+    //Fails if insufficient cards or invalid location
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void moveRight(){
 		b.location = findlocation(1);
 		
 		if(b.owned[b.location[0],b.location[1]+1] == 1){
-			if(b.position[b.location[0],b.location[1]+1] == 2){
+
+            //if Midas and Apollo are in the same room then Midas wins.
+            if (b.position[b.location[0],b.location[1]+1] == 2){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				SceneManager.LoadScene("MidasWins");
 				return;
 			}
-			b.position[b.location[0],b.location[1]] = 0;
+
+            //adjust player location
+            b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0],b.location[1]+1] = 1;
-			//printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0],b.location[1]+1] == 2){
 			b.prompt.text = "Claimed by an Enemy.";
-			//break;
-		}else if (b.owned[b.location[0],b.location[1]+1] == 0){
-			b.prompt.text = "Purchasing";
+		}else if (b.owned[b.location[0],b.location[1]+1] == 0){ //attempts purchase since room is not owned
+            b.prompt.text = "Purchasing";
 			bool passed = purchase(1, b.location[0],b.location[1]+1);
-			if(passed){
-				//printb.positionMap();
+
+            //only runs if purchase was successful, adjusts player location
+            if (passed){
 				b.position[b.location[0], b.location[1]] = 0;
 				b.position[b.location[0], b.location[1]+1] = 1;
 				printownedMap();
 			}
 		}
 	}
-	
-	public void moveUp(){
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Attempts movement, upwards direction
+    //If not owned, attempts purchase
+    //Fails if insufficient cards or invalid location
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void moveUp(){
 		b.location = findlocation(1);
 
 		if(b.owned[b.location[0]-1,b.location[1]] == 1){
-			if(b.position[b.location[0]-1,b.location[1]] == 2){
+
+            //if Midas and Apollo are in the same room then Midas wins.
+            if (b.position[b.location[0]-1,b.location[1]] == 2){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				SceneManager.LoadScene("MidasWins");
 				return;
 			}
-			b.position[b.location[0],b.location[1]] = 0;
+
+            //adjust player location
+            b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0]-1,b.location[1]] = 1;
-			//printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0]-1,b.location[1]] == 2){
 			b.prompt.text = "Claimed by an Enemy.";
 			//break;
-		}else if (b.owned[b.location[0]-1,b.location[1]] == 0){
-			b.prompt.text = "Purchasing";
+		}else if (b.owned[b.location[0]-1,b.location[1]] == 0){ //attempts purchase since room is not owned
+            b.prompt.text = "Purchasing";
 			bool passed = purchase(1, b.location[0]-1,b.location[1]);
-			if(passed){
-				//printb.positionMap();
+
+            //only runs if purchase was successful, adjusts player location
+            if (passed){
 				b.position[b.location[0],b.location[1]] = 0;
 				b.position[b.location[0]-1,b.location[1]] = 1;
 				printownedMap();
 			}
 		}
 	}
-	
-	public void moveDown(){
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Attempts movement, downward direction
+    //If not owned, attempts purchase
+    //Fails if insufficient cards or invalid location
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void moveDown(){
 		b.location = findlocation(1);
 		if(b.owned[b.location[0]+1,b.location[1]] == 1){
-			if(b.position[b.location[0]+1,b.location[1]] == 2){
+
+            //if Midas and Apollo are in the same room then Midas wins.
+            if (b.position[b.location[0]+1,b.location[1]] == 2){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				SceneManager.LoadScene("MidasWins");
 				return;
 			}
-			b.position[b.location[0],b.location[1]] = 0;
+
+            //adjust player location
+            b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0]+1,b.location[1]] = 1;
-			//printpositionMap();
 			b.completedMove = true;
 		}else if(b.owned[b.location[0]+1,b.location[1]] == 2){
 			b.prompt.text = "Claimed by an Enemy.";
-			//break;
-		}else if (b.owned[b.location[0]+1,b.location[1]] == 0){
-			b.prompt.text = "Purchasing";				
-			bool passed = purchase(1, b.location[0]+1,b.location[1]);
-			if(passed){
-				//printb.positionMap();
+		}else if (b.owned[b.location[0]+1,b.location[1]] == 0){ //attempts purchase since room is not owned
+
+            b.prompt.text = "Purchasing";				
+			bool passed = purchase(1, b.location[0]+1,b.location[1])
+
+            //only runs if purchase was successful, adjusts player location
+            if (passed){
 				Debug.Log("Hello");
 				b.position[b.location[0],b.location[1]] = 0;
 				b.position[b.location[0]+1,b.location[1]] = 1;
@@ -316,19 +380,22 @@ public class MidasTurn : MonoBehaviour
 		}
 		
 	}
-	
-	public int checkWin(){
+
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Checks status of game, checks for Midas winstate
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public int checkWin(){
 		int count = 0;
 		int[] location = new int[2];
 		for(int i = 0; i < 5; ++i)
 		{
 			for(int j = 0; j < 5; ++j)
 			{
-				if( b.owned[i,j] == 1) // (or maybe 'object.ReferenceEqual')
+				if( b.owned[i,j] == 1)
 				{
-					count++;
-					//return location;
-				}
+					count++; //holds the amount of rooms that Midas owns
+                }
 			}
 		}
 		location[0] = 9;
@@ -342,6 +409,10 @@ public class MidasTurn : MonoBehaviour
 		return count;
 	}
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Returns number value in form of a string
+    //Used to display player card inventories
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public string GetCards(int j)
     {
         int sum = 0;

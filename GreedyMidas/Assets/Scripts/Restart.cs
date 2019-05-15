@@ -4,25 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//Resets the variables of the game to the initialized state
+//ie, Reloads the scene
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 public class Restart : MonoBehaviour
 {
 	
 	public bool isRestart;
 	public bool isQuit;
-	
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 		
-    }
-	
-	
 	public void PlayGame() {
 		if (isQuit) {
 			Application.Quit();

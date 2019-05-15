@@ -11,20 +11,23 @@ public class ApolloTurn : MonoBehaviour
 {
 	public backend b;
 	int randomNumber;
-	
-	void Update () {
+
+    void Update () {
         TurnDefs.Player currentTurn = b.turns.GetCurrentTurn();
         if (Input.GetKeyDown("d") && b.completedAction == false && currentTurn == TurnDefs.Player.TWO)
-        { //draw card
+        {
             DrawCard();
 		}else if(currentTurn == TurnDefs.Player.TWO){
 			Turn();
-		}
-			
-			
-	}	
-	
-	public void Turn () {
+		}		
+	}
+
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Keyboard controls for turn
+    //UI button controls outlined in Turns.cs
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void Turn () {
 	
 		//Apollo Turn
 		//-Draw card
@@ -33,10 +36,11 @@ public class ApolloTurn : MonoBehaviour
             Move();
 			 
         }
+
+        //check for win state after completing turn
         else if(b.completedMove == true && b.completedAction == true)
         {
 			if(!b.said){
-				//b.prompt.text = "Your move is already complete! Next Player's turn";
 				checkWin();
 				b.said = true;
 			}
@@ -56,11 +60,15 @@ public class ApolloTurn : MonoBehaviour
 
     }
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Draws a randomized card
+    //Adds drawn card to player inventory
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void DrawCard() {
         int spot = System.Array.IndexOf(b.apollo, 0);
-        //b.apollo[spot] = Random.Range(1, 6); temporary
         randomNumber = Random.Range(1, 101);
-		//40 iron, 30 lead, 20 bronze, 10 silver
+
+        //determines what type of card is drawn by the number given
 		if(randomNumber <= 35){
 			b.apollo[spot] = 4;
 		}else if(randomNumber <= 65){
@@ -72,9 +80,9 @@ public class ApolloTurn : MonoBehaviour
 		}else{
 			b.apollo[spot] = 5;
 		}
+
+        //prints key inventory
 		b.ApolloText.text = "Apollo's Keys:\n";
-		
-		
 		int sum = 0;
 		for(int j = 1; j < 6; j++){
 			for(int i=0; i < b.apollo.Length; i++){
@@ -94,6 +102,10 @@ public class ApolloTurn : MonoBehaviour
         b.completedAction = true;
     }
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Keyboard-controlled movement
+    //Button-controlled movement is outlined in Turns.cs
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void Move() {
 			if (Input.GetKeyDown("up")){
 				moveUp();
@@ -108,17 +120,19 @@ public class ApolloTurn : MonoBehaviour
 				moveRight();
 			}
 			
-	}	
-	
-	
-	public int[] findlocation(int player){
+	}
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Gets the current location of a player
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public int[] findlocation(int player){
 		int found_i = -1;
 		int[] location = new int[2];
 		for(int i = 0; i < 5 && found_i < 0; ++i)
 		{
 			for(int j = 0; j < 5; ++j)
 			{
-				if( b.position[i,j] == player) // (or maybe 'object.ReferenceEqual')
+				if( b.position[i,j] == player)
 				{
 					location[0] = i;
 					location[1] = j;
@@ -130,29 +144,40 @@ public class ApolloTurn : MonoBehaviour
 		location[1] = 9;
 		return location;
 	}
-	
-		
-	public void printpositionMap(){
-		//b.prompt.text = "b.position Map";
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Prints position of players on map
+    //used for debugging
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+    public void printpositionMap(){
 		b.prompt.text = "";
 		for (int i = 0; i < 5; i++)
 			{
 				b.prompt.text += b.position[i,0] + "\t" + b.position[i,1] + "\t" + b.position[i,2] + "\t" + b.position[i,3] + "\t" + b.position[i,4];
 			}
 	}
-	
-	
-	public void printownedMap(){
-		//b.prompt.text = "b.owned Map";
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Prints text of owned and unowned tiles
+    //Used for debugging
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void printownedMap(){
 		b.prompt.text = "";
 		for (int i = 0; i < 5; i++)
 			{
 				b.prompt.text += b.owned[i,0] + "\t" + b.owned[i,1] + "\t" + b.owned[i,2] + "\t" + b.owned[i,3] + "\t" + b.owned[i,4];
 			}
 	}
-	
-	public bool purchase(int player, int x, int y){
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Attempts purchase of unowned tile
+    //Returns bool true for success, false for failure
+    //fails when there are insufficient cards for purchase
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public bool purchase(int player, int x, int y){
 		b.spot = System.Array.IndexOf(b.apollo, b.cards[x,y]);
+
+        //runs if insufficient cards to purchase or player must use skeleton key to purchase
 		if(b.spot == -1){
 			b.spot = System.Array.IndexOf(b.apollo, 5);
 			if(b.spot == -1){
@@ -161,8 +186,9 @@ public class ApolloTurn : MonoBehaviour
 				b.prompt.text = "Use Skeleton Key To Purchase? y or n.";
 				b.canPurchase = true;
 			}
+
+        //runs if player can purchase, confirms player choice.
 		}else{
-			//b.prompt.text = "Want to Purchase? y or n.");
 			b.prompt.text = "Want to Purchase? y or n.";
             b.canPurchase = true;
 		}
@@ -172,8 +198,10 @@ public class ApolloTurn : MonoBehaviour
 		
 	}
 
-	
-	public void Purchase()
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Updates variables after player confirms a valid purchase
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void Purchase()
     {
 		int[] loc = new int[2];
         b.prompt.text = "Purchased";
@@ -186,7 +214,6 @@ public class ApolloTurn : MonoBehaviour
         b.completedMove = true;
 		b.purchaseX = -1;
 		b.purchaseY = -1;
-        //printownedMap();
 		b.ApolloText.text = "";
 		int sum = 0;
 		for(int j = 1; j < 6; j++){
@@ -205,95 +232,132 @@ public class ApolloTurn : MonoBehaviour
         b.ApolloCard5.text = GetCards(5);
     }
 
-	public void moveLeft(){
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Attempts movement, left direction
+    //If not owned, attempts purchase
+    //Fails if insufficient cards or invalid location
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void moveLeft(){
 		b.location = findlocation(2);
 		if(b.owned[b.location[0],b.location[1]-1] == 2 || b.owned[b.location[0],b.location[1]-1] == 1){
-			if(b.position[b.location[0],b.location[1]-1] == 1){
+
+            //if Midas and Apollo are in the same room then Midas wins.
+            if (b.position[b.location[0],b.location[1]-1] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				SceneManager.LoadScene("MidasWins");
 				return;
 			}
-			b.position[b.location[0],b.location[1]] = 0;
+
+            //adjust player location
+            b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0],b.location[1]-1] = 2;
-			//printpositionMap();
 			b.completedMove = true;
-		}else if (b.owned[b.location[0],b.location[1]-1] == 0){
-			b.prompt.text = "Purchasing";					
+		}else if (b.owned[b.location[0],b.location[1]-1] == 0){  //attempts purchase since room is not owned
+            b.prompt.text = "Purchasing";					
 			bool passed = purchase(1, b.location[0],b.location[1]-1);
-			if(passed){
-				//printb.positionMap();
+
+            //only runs if purchase was successful, adjusts player location
+            if (passed){
 				b.position[b.location[0],b.location[1]] = 0;
 				b.position[b.location[0],b.location[1]-1] = 2;
 				printownedMap();
 			}
 		}
 	}
-	
-	public void moveRight(){
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Attempts movement, right direction
+    //If not owned, attempts purchase
+    //Fails if insufficient cards or invalid location
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void moveRight(){
 		b.location = findlocation(2);
 		if(b.owned[b.location[0],b.location[1]+1] == 2 || b.owned[b.location[0],b.location[1]+1] == 1){
-			if(b.position[b.location[0],b.location[1]+1] == 1){
+
+            //if Midas and Apollo are in the same room then Midas wins.
+            if (b.position[b.location[0],b.location[1]+1] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				SceneManager.LoadScene("MidasWins");
 				return;
 			}
-			b.position[b.location[0],b.location[1]] = 0;
+
+            //adjust player location
+            b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0],b.location[1]+1] = 2;
-			//printpositionMap();
 			b.completedMove = true;
-		}else if (b.owned[b.location[0],b.location[1]+1] == 0){
-			b.prompt.text = "Purchasing";
+		}else if (b.owned[b.location[0],b.location[1]+1] == 0){  //attempts purchase since room is not owned
+            b.prompt.text = "Purchasing";
 			bool passed = purchase(1, b.location[0],b.location[1]+1);
-			if(passed){
-				//printb.positionMap();
+
+            //only runs if purchase was successful, adjusts player location
+            if (passed){
 				b.position[b.location[0], b.location[1]] = 0;
 				b.position[b.location[0], b.location[1]+1] = 2;
 				printownedMap();
 			}
 		}
 	}
-	
-	public void moveUp(){
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Attempts movement, upwards direction
+    //If not owned, attempts purchase
+    //Fails if insufficient cards or invalid location
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void moveUp(){
 		b.location = findlocation(2);
 		if(b.owned[b.location[0]-1,b.location[1]] == 2 || b.owned[b.location[0]-1,b.location[1]] == 1){
-			if(b.position[b.location[0]-1,b.location[1]] == 1){
+
+            //if Midas and Apollo are in the same room then Midas wins.
+            if (b.position[b.location[0]-1,b.location[1]] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				SceneManager.LoadScene("MidasWins");
 				return;
 			}
-			b.position[b.location[0],b.location[1]] = 0;
+
+            //adjust player location
+            b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0]-1,b.location[1]] = 2;
-			//printpositionMap();
 			b.completedMove = true;
-		}else if (b.owned[b.location[0]-1,b.location[1]] == 0){
-			b.prompt.text = "Purchasing";
+		}else if (b.owned[b.location[0]-1,b.location[1]] == 0){ //attempts purchase since room is not owned
+            b.prompt.text = "Purchasing";
 			bool passed = purchase(1, b.location[0]-1,b.location[1]);
-			if(passed){
-				//printb.positionMap();
+
+            //only runs if purchase was successful, adjusts player location
+            if (passed){
 				b.position[b.location[0],b.location[1]] = 0;
 				b.position[b.location[0]-1,b.location[1]] = 2;
 				printownedMap();
 			}
 		}
 	}
-	
-	public void moveDown(){
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Attempts movement, downward direction
+    //If not owned, attempts purchase
+    //Fails if insufficient cards or invalid location
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void moveDown(){
 		b.location = findlocation(2);
+
 		if(b.owned[b.location[0]+1,b.location[1]] == 2 || b.owned[b.location[0]+1,b.location[1]] == 1){
+
+            //if Midas and Apollo are in the same room then Midas wins.
 			if(b.position[b.location[0]+1,b.location[1]] == 1){
 				b.prompt.text = "COLLISION - Midas Wins!";
 				SceneManager.LoadScene("MidasWins");
 				return;
-			}	
+			}
+
+            //adjust player location
 			b.position[b.location[0],b.location[1]] = 0;
 			b.position[b.location[0]+1,b.location[1]] = 2;
-			//printpositionMap();
 			b.completedMove = true;
-		}else if (b.owned[b.location[0]+1,b.location[1]] == 0){
+       	}else if (b.owned[b.location[0]+1,b.location[1]] == 0){ //attempts purchase since room is not owned
 			b.prompt.text = "Purchasing";				
 			bool passed = purchase(1, b.location[0]+1,b.location[1]);
-			if(passed){
-				//printb.positionMap();
+
+            //only runs if purchase was successful, adjusts player location
+            if (passed){
 				b.position[b.location[0],b.location[1]] = 0;
 				b.position[b.location[0]+1,b.location[1]] = 2;
 				printownedMap();
@@ -301,18 +365,20 @@ public class ApolloTurn : MonoBehaviour
 		}
 		
 	}
-	
-	public int checkWin(){
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Checks status of game, checks for Apollo winstate
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public int checkWin(){
 		int count = 0;
 		int[] location = new int[2];
 		for(int i = 0; i < 5; ++i)
 		{
 			for(int j = 0; j < 5; ++j)
 			{
-				if( b.owned[i,j] == 2) // (or maybe 'object.ReferenceEqual')
+				if( b.owned[i,j] == 2)
 				{
-					count++;
-					//return location;
+					count++; //holds the amount of rooms that Apollo owns
 				}
 			}
 		}
@@ -322,11 +388,16 @@ public class ApolloTurn : MonoBehaviour
 			b.prompt.text = "Apollo wins!";
 			SceneManager.LoadScene("ApolloWins");
 		}else if(count == 12){
-			b.prompt.text = "Midas is 1 card from winning!";
+			b.prompt.text = "Apollo is 1 card from winning!";
 		}
 		return count;
 	}
 
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //Returns number value in form of a string
+    //Used to display player card inventories
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public string GetCards(int j)
     {
         int sum = 0;
@@ -336,8 +407,10 @@ public class ApolloTurn : MonoBehaviour
             {
                 sum++;
             }
-
         }
+
         return sum.ToString();
     }
+
+
 }
