@@ -204,18 +204,28 @@ public class MidasTurn : MonoBehaviour
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Purchase()
     {
+        //Location of purchase
 		int[] loc = new int[2];
         b.prompt.text = "Purchased";
+
+        //Assign ownership to Midas
         b.owned[b.purchaseX, b.purchaseY] = 1;
+
+        //Remove key
         b.midas[b.spot] = 0;
         b.canPurchase = false;
 		loc = findlocation(1);
+
+        //Move Midas to purchased location
         b.position[loc[0], loc[1]] = 0;
         b.position[b.purchaseX, b.purchaseY] = 1;
         b.completedMove = true;
+
+        //Reset purchase variables
 		b.purchaseX = -1;
 		b.purchaseY = -1;
-        //printownedMap();
+
+        //Key printout used for debugging
 		b.MidasText.text = "";
 		int sum = 0;
 		for(int j = 1; j < 6; j++){
@@ -227,6 +237,8 @@ public class MidasTurn : MonoBehaviour
 			b.MidasText.text += sum.ToString() + " " + b.colorText[j-1] + "\n";
 			sum = 0;
 		}
+
+        //Update key cards
         b.MidasCard1.text = GetCards(1);
         b.MidasCard2.text = GetCards(2);
         b.MidasCard3.text = GetCards(3);

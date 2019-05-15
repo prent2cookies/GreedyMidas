@@ -203,17 +203,28 @@ public class ApolloTurn : MonoBehaviour
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Purchase()
     {
+        //Location of purchase
 		int[] loc = new int[2];
         b.prompt.text = "Purchased";
+
+        //Assign ownership to Apollo
         b.owned[b.purchaseX, b.purchaseY] = 2;
+
+        //Remove used key
         b.apollo[b.spot] = 0;
         b.canPurchase = false;
 		loc = findlocation(2);
+
+        //Move Apollo to bought location
         b.position[loc[0], loc[1]] = 0;
         b.position[b.purchaseX, b.purchaseY] = 2;
         b.completedMove = true;
+
+        //Reset purchase variables
 		b.purchaseX = -1;
 		b.purchaseY = -1;
+
+        //Printout used for debugging purposes
 		b.ApolloText.text = "";
 		int sum = 0;
 		for(int j = 1; j < 6; j++){
@@ -225,6 +236,8 @@ public class ApolloTurn : MonoBehaviour
 			b.ApolloText.text += sum.ToString() + " " + b.colorText[j-1] + "\n";
 			sum = 0;
 		}
+
+        //Update key card values
         b.ApolloCard1.text = GetCards(1);
         b.ApolloCard2.text = GetCards(2);
         b.ApolloCard3.text = GetCards(3);
