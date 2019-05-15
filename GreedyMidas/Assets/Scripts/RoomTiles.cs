@@ -128,19 +128,19 @@ public class RoomTiles : MonoBehaviour
         {
             switch (b.cards[index[0], index[1]])
             {
-                case 1://set up room 1
+                case 1://set up bronze key unowned room
                     ChangeAnimationState(1);
                     break;
-                case 2://set up room 2
+                case 2://set up silver key unowned room
                     ChangeAnimationState(2);
                     break;
-                case 3://set up room 3
+                case 3://set up lead key unowned room
                     ChangeAnimationState(3);
                     break;
-                case 4://set up room 4
+                case 4://set up wrought iron key unowned room
                     ChangeAnimationState(4);
                     break;
-                default:
+                default: //error room (something broke in the game if this state is called)
                     ChangeAnimationState(0);
                     break;
 
@@ -150,25 +150,25 @@ public class RoomTiles : MonoBehaviour
         {
             if (b.position[index[0], index[1]] == 1)
             {
-                ChangeAnimationState(5);
+                ChangeAnimationState(5); //room that Midas is currently in
             }
             else if (b.position[index[0], index[1]] == 2) {
-                ChangeAnimationState(9);
+                ChangeAnimationState(9); //room that Midas owns but Apollo is currently in
             }
             else
             {
-                ChangeAnimationState(6);
+                ChangeAnimationState(6); //room that Midas owns but is not currently in
             }
         }
         else
         {
             if (b.position[index[0], index[1]] == 2)
             {
-                ChangeAnimationState(7);
+                ChangeAnimationState(7); //room that Apollo owns and is currently in
             }
             else
             {
-                ChangeAnimationState(8);
+                ChangeAnimationState(8); //room that Apollo owns but is not currently in
             }
         }
     }
